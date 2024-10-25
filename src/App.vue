@@ -1,26 +1,66 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="grid-container">
+    <Auth></Auth>
+    <sidebar></sidebar>
+    <div class="main-content">
+      <li style="height: 33%;">a</li>
+      <li style="height: 33%;">a</li>
+      <li style="height: 33%;">a</li>
+      <li style="height: 33%;">a</li>
+      <li>a</li>
+      <li>a</li>
+
+
+      <!-- <router-view>
+      </router-view>        
+      <button @click="openAuth">aaa</button>
+      <button @click="closeAuth">bbb</button> -->
+    </div>
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+// 导入侧边栏组件
+import Auth from "./components/items/Auth.vue";
+import Sidebar from "./components/items/Sidebar.vue";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+function openAuth() {
+  store.dispatch('open');
 }
+
+function closeAuth() {
+  store.dispatch('close');
+}
+
 </script>
 
 <style>
+/* 此处是根属性 */
+html,
+body,
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.grid-container {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 11fr;
+  width: 100%;
+  height: 100%;
+}
+
+.main-content{
+  grid-column: 11fr;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  background-color:gray;
 }
 </style>
