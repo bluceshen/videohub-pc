@@ -13,7 +13,7 @@
                 </div>
             </div>
 
-            <el-menu-item index="/home">
+            <el-menu-item index="/home/origin">
                 <div>
                     <el-icon >
                         <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
@@ -89,6 +89,8 @@ const handleAvatarClick = () => {
 
 <style scoped>
 .grid-container {
+    width: 100%;
+    height: 100%;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(16, 1fr);

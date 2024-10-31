@@ -1,16 +1,9 @@
 <template>
-  <div class="grid-container">
+  <div class="app-grid-container">
     <Auth></Auth>
     <sidebar></sidebar>
-    <div class="main-content">
-      <li style="height: 33%;">a</li>
-      <li style="height: 33%;">a</li>
-
-
-      <router-view>
-      </router-view>        
-      <button @click="openAuth">aaa</button>
-      <button @click="closeAuth">bbb</button>
+    <div class="app-main-content">
+      <router-view></router-view>        
     </div>
   </div>
 </template>
@@ -45,7 +38,7 @@ body,
   margin: 0;
 }
 
-.grid-container {
+.app-grid-container {
   overflow: hidden;
   display: grid;
   grid-template-columns: 1fr 11fr;
@@ -54,10 +47,12 @@ body,
   background-color:var(--background-black1);
 }
 
-.main-content{
+.app-main-content{
   grid-column: 11fr;
   height: 100%;
   width: 100%;
+  min-width: 1500px;
+
   overflow-y: auto;
   background-color: var(--background-black2);
 }

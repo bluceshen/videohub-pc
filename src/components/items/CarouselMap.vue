@@ -24,8 +24,8 @@
     
     <!--右下角按钮-->>
     <div class="carousel-footer__right">
-      <button class="iconfont" @click="preChange"><</button>
-      <button class="iconfont" @click="nextChange">></button>
+      <button class="iconfont" @click="preChange"></button>
+      <button class="iconfont" @click="nextChange"></button>
     </div>
   </div>
 </template>

@@ -1,13 +1,13 @@
 <template>
-  <div class="box" id="playerBox">
-    <video id="player" style="width: 100%; height: 135px; object-fit: fill" disablePictureInPicture loop>
+  <div class="box" ref="playerBox">
+    <video ref="video" style="width: 100%; height: 135px; object-fit: fill" disablePictureInPicture loop>
       <source :src="videoUrl" type="video/mp4" />
-      <p>您的浏览器不支持 视频播放。</p> <!-- 提示信息 -->
+      <p>您的浏览器不支持视频播放。</p> <!-- 提示信息 -->
     </video>
 
-    <!--封面-->>
+    <!--封面-->
     <div class="cover" :class="{ hidden: !isCover }">
-      <img :src="coverUrl" alt="" />
+      <img :src="coverUrl" alt="封面图片" />
     </div>
 
     <!-- 视频信息 -->
@@ -18,32 +18,41 @@
       <div class="desc">
         <span id="author">{{ author }}</span>
         <span>·</span>
-        <span id="time">{{ release_time }}</span>
+        <span id="time">{{ releaseTime }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { onMounted } from 'vue';
+import { ref, defineProps } from 'vue';
 
-let title = "鲑鱼盛宴";
-let author = "阿嚏";
-let release_time = "2023-11-13";
+// 定义接收的props
+const props = defineProps({
+  title: String,
+  author: String,
+  releaseTime: String,
+  videoUrl: String,
+  coverUrl: String,
+});
 
+// 响应式变量
 const isCover = ref(true);
-const videoUrl = require("@/assets/movie.mp4");
-const coverUrl = require('@/assets/images/img3.png');
+const video = ref(null);
+const playerBox = ref(null);
+
 function playVideo() {
-  const video = document.getElementById("player");
-  video.play();
-  isCover.value = false;  // 鼠标移入时隐藏封面
+  if (video.value) {
+    video.value.play();
+    isCover.value = false;  // 鼠标移入时隐藏封面
+  }
 }
+
 function pauseVideo() {
-  const video = document.getElementById("player");
-  video.pause();
-  isCover.value = true;   // 鼠标移出时显示封面
+  if (video.value) {
+    video.value.pause();
+    isCover.value = true;   // 鼠标移出时显示封面
+  }
 }
 
 function debounce(fn, delay) {  // 防抖函数
@@ -53,17 +62,36 @@ function debounce(fn, delay) {  // 防抖函数
     timer = setTimeout(fn, delay);
   };
 }
+
 const debouncedPlayVideo = debounce(playVideo, 100);
 const debouncedPauseVideo = debounce(pauseVideo, 100);
 
-onMounted(() => {
-  const box = ref(document.getElementById("playerBox"));
-  if (box.value) {
-    box.value.addEventListener('mouseenter', debouncedPlayVideo);
-    box.value.addEventListener('mouseleave', debouncedPauseVideo);
+// 使用Vue的ref引用来添加事件监听器
+const removeMouseEnterListener = () => {
+  if (playerBox.value) {
+    playerBox.value.addEventListener('mouseenter', debouncedPlayVideo);
   }
+};
+
+const removeMouseLeaveListener = () => {
+  if (playerBox.value) {
+    playerBox.value.addEventListener('mouseleave', debouncedPauseVideo);
+  }
+};
+
+// 在组件卸载时移除事件监听器
+import { onMounted, onUnmounted } from 'vue';
+onMounted(() => {
+  removeMouseEnterListener();
+  removeMouseLeaveListener();
 });
 
+onUnmounted(() => {
+  if (playerBox.value) {
+    playerBox.value.removeEventListener('mouseenter', debouncedPlayVideo);
+    playerBox.value.removeEventListener('mouseleave', debouncedPauseVideo);
+  }
+});
 </script>
 
 <style scoped>
@@ -71,7 +99,6 @@ onMounted(() => {
   width: 240px;
   height: 185px;
   position: relative;
-  /* 确保子元素可以相对于此容器定位 */
   overflow: hidden;
   transition: transform 0.3s ease;
   border-radius: 5px;
@@ -79,7 +106,6 @@ onMounted(() => {
 
 .box:hover {
   border-color: #726c6c;
-  /* 悬停时改变边框颜色 */
   transform: scale(1.03);
   cursor: pointer;
 }
@@ -94,7 +120,6 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   transition: opacity 0.3s ease;
-  /* 添加过渡效果 */
 }
 
 .cover.hidden {
@@ -105,7 +130,6 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* 保持封面图的宽高比 */
 }
 
 .info {
@@ -114,7 +138,6 @@ onMounted(() => {
   top: 135px;
   left: 0;
   background-color: rgba(20, 19, 19, 0.5);
-  /* 背景半透明 */
   text-align: left;
   border-top: #f8e9e9 solid 1px;
 }
