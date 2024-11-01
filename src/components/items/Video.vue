@@ -1,6 +1,6 @@
 <template>
   <div class="box" ref="playerBox">
-    <video ref="video" style="width: 100%; height: 135px; object-fit: fill" disablePictureInPicture loop>
+    <video ref="video" muted style="width: 100%; height: 135px; object-fit: cover" disablePictureInPicture loop>
       <source :src="videoUrl" type="video/mp4" />
       <p>您的浏览器不支持视频播放。</p> <!-- 提示信息 -->
     </video>
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, onMounted, onUnmounted } from 'vue';
 
 // 定义接收的props
 const props = defineProps({
@@ -66,30 +66,21 @@ function debounce(fn, delay) {  // 防抖函数
 const debouncedPlayVideo = debounce(playVideo, 100);
 const debouncedPauseVideo = debounce(pauseVideo, 100);
 
-// 使用Vue的ref引用来添加事件监听器
-const removeMouseEnterListener = () => {
-  if (playerBox.value) {
-    playerBox.value.addEventListener('mouseenter', debouncedPlayVideo);
-  }
-};
-
-const removeMouseLeaveListener = () => {
-  if (playerBox.value) {
-    playerBox.value.addEventListener('mouseleave', debouncedPauseVideo);
-  }
-};
+const removeMouseEnterListener = playerBox.value ? () => playerBox.value.addEventListener('mouseenter', debouncedPlayVideo) : null;
+const removeMouseLeaveListener = playerBox.value ? () => playerBox.value.addEventListener('mouseleave', debouncedPauseVideo) : null;
 
 // 在组件卸载时移除事件监听器
-import { onMounted, onUnmounted } from 'vue';
-onMounted(() => {
-  removeMouseEnterListener();
-  removeMouseLeaveListener();
-});
-
 onUnmounted(() => {
   if (playerBox.value) {
     playerBox.value.removeEventListener('mouseenter', debouncedPlayVideo);
     playerBox.value.removeEventListener('mouseleave', debouncedPauseVideo);
+  }
+});
+
+onMounted(() => {
+  if (playerBox.value) {
+    playerBox.value.addEventListener('mouseenter', debouncedPlayVideo);
+    playerBox.value.addEventListener('mouseleave', debouncedPauseVideo);
   }
 });
 </script>
@@ -140,6 +131,10 @@ onUnmounted(() => {
   background-color: rgba(20, 19, 19, 0.5);
   text-align: left;
   border-top: #f8e9e9 solid 1px;
+  padding: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .title {

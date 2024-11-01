@@ -42,6 +42,7 @@ body,
   overflow: hidden;
   display: grid;
   grid-template-columns: 1fr 11fr;
+  grid-template-rows: 1fr;
   width: 100%;
   height: 100%;
   background-color:var(--background-black1);
@@ -51,10 +52,10 @@ body,
   grid-column: 11fr;
   height: 100%;
   width: 100%;
-  min-width: 1500px;
+  min-width: 1000px;
 
   overflow-y: auto;
-  background-color: var(--background-black2);
+  background-color: var(--silver);
 }
 
 /* 主题颜色 */

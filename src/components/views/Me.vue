@@ -7,7 +7,9 @@
   </template>
   
   <script>
+import CarouselMap from '../items/CarouselMap.vue'
   export default {
+  components: { CarouselMap },
     name: 'Me',
     props: {
       msg: String
