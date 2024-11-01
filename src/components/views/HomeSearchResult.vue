@@ -29,18 +29,22 @@ const videos = ref(store.state.searchResultsData); // 从 store 中获取 search
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
   /* scoped表示这里的css样式不会泄露到其他组件 */
-  .sub-grid-container{
-    width:100%;
-    height:100%;
+  .sub-grid-container {
+  width: 100%;
+  height: 100%;
+  grid-row: 2;
+  grid-column: 1;
 
-    grid-row: 2;
-    grid-column: 1;
-  
-    display: grid;
-  
-    grid-template-columns: repeat(5,1fr);
-    grid-template-rows: repeat(3,1fr);
+  display: grid;
 
-    place-items: center;
-  }
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  place-items: center;
+
+  gap: 20px 10px;
+
+  box-sizing: border-box;
+  padding: 10px;
+}
   </style>

@@ -44,7 +44,7 @@ const searchValue = ref("");
 
 .search-container {
     width: 100%;
-    height: 90%;
+    height: 100%;
     position: relative;
     grid-column: 4/8;
     grid-row: 2;

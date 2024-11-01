@@ -1,6 +1,6 @@
 <template>
   <div class="box" ref="playerBox">
-    <video ref="video" muted style="width: 100%; height: 135px; object-fit: cover" disablePictureInPicture loop>
+    <video ref="video" muted style="width: 100%; height: 100%; object-fit: cover" disablePictureInPicture loop>
       <source :src="videoUrl" type="video/mp4" />
       <p>您的浏览器不支持视频播放。</p> <!-- 提示信息 -->
     </video>
@@ -66,29 +66,33 @@ function debounce(fn, delay) {  // 防抖函数
 const debouncedPlayVideo = debounce(playVideo, 100);
 const debouncedPauseVideo = debounce(pauseVideo, 100);
 
-const removeMouseEnterListener = playerBox.value ? () => playerBox.value.addEventListener('mouseenter', debouncedPlayVideo) : null;
-const removeMouseLeaveListener = playerBox.value ? () => playerBox.value.addEventListener('mouseleave', debouncedPauseVideo) : null;
+let mouseEnterListener = null;
+let mouseLeaveListener = null;
 
-// 在组件卸载时移除事件监听器
-onUnmounted(() => {
+function setupEventListeners() {
   if (playerBox.value) {
-    playerBox.value.removeEventListener('mouseenter', debouncedPlayVideo);
-    playerBox.value.removeEventListener('mouseleave', debouncedPauseVideo);
+    mouseEnterListener = debouncedPlayVideo;
+    mouseLeaveListener = debouncedPauseVideo;
+    playerBox.value.addEventListener('mouseenter', mouseEnterListener);
+    playerBox.value.addEventListener('mouseleave', mouseLeaveListener);
   }
-});
+}
 
-onMounted(() => {
+function removeEventListeners() {
   if (playerBox.value) {
-    playerBox.value.addEventListener('mouseenter', debouncedPlayVideo);
-    playerBox.value.addEventListener('mouseleave', debouncedPauseVideo);
+    playerBox.value.removeEventListener('mouseenter', mouseEnterListener);
+    playerBox.value.removeEventListener('mouseleave', mouseLeaveListener);
   }
-});
+}
+
+onMounted(setupEventListeners);
+onUnmounted(removeEventListeners);
 </script>
 
 <style scoped>
 .box {
-  width: 240px;
-  height: 185px;
+  width: 100%;
+  height: 100%;
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease;
@@ -106,7 +110,7 @@ onMounted(() => {
   left: 0;
   opacity: 1;
   width: 100%;
-  height: 135px;
+  height: 100%;
   position: absolute;
   justify-content: center;
   align-items: center;
@@ -126,7 +130,7 @@ onMounted(() => {
 .info {
   position: absolute;
   width: 100%;
-  top: 135px;
+  bottom: 0px;
   left: 0;
   background-color: rgba(20, 19, 19, 0.5);
   text-align: left;

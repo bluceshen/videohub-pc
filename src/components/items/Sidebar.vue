@@ -93,7 +93,7 @@ const handleAvatarClick = () => {
     height: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(16, 1fr);
+    grid-template-rows: repeat(12, 1fr);
     place-items: center;
     overflow: hidden;
 }
@@ -111,7 +111,7 @@ const handleAvatarClick = () => {
     display: grid;
     place-items: center;
     grid-column: 1;
-    grid-row: 14;
+    grid-row: 10;
 }
 
 .avatar {
@@ -119,7 +119,7 @@ const handleAvatarClick = () => {
     display: grid;
     place-items: center;
     grid-column: 1/2;
-    grid-row: 15/17;
+    grid-row: 11/13;
     cursor: pointer;
     /* 添加手型指针样式 */
     transition: transform 0.3s ease;

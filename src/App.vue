@@ -52,7 +52,8 @@ body,
   grid-column: 11fr;
   height: 100%;
   width: 100%;
-  min-width: 1000px;
+  min-width: 1200px;
+  min-height: 600px;
 
   overflow-y: auto;
   background-color: var(--silver);
