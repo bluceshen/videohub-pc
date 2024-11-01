@@ -30,41 +30,23 @@ const videos = ref(store.state.videoHomeData); // 从 store 中获取 videoHomeD
 
 .sub-grid-container {
   width: 100%;
-  height: 100%;
-  grid-row: 2;
-  grid-column: 1;
-
+  height: 100%; /* 或者设置为一个固定的高度 */
   display: grid;
-
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-
-  place-items: center;
-
+  grid-template-columns: repeat(5, 1fr); /* 定义五列 */
+  grid-auto-rows:250px;
   gap: 20px 10px;
-
   box-sizing: border-box;
   padding: 10px;
 }
 
 .carouse-map {
+  grid-column: 1 / span 3; /* 从第1列开始，跨越3列 */
+  grid-row: 1 / span 2; /* 从第1行开始，跨越2行 */
   z-index: 1050;
-  grid-column: 1/4;
-  grid-row: 1/3;
   background-color: rgb(56, 140, 212);
   display: grid;
   place-items: center;
-
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-  /* padding: 10px; */
-  /* 其他样式 */
 }
 
-.video {
-  width: 100%;
-  height: 100%;
-  /* padding: 10px; */
-}
 </style>
+

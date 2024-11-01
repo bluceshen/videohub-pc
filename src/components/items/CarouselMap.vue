@@ -8,6 +8,7 @@
     >
       <el-carousel-item v-for="(item, index) in images" :key="index">
         <el-image class="carousel-image" :src="item.idView"></el-image>
+        <div class="carousel-font">{{ item.desc }}</div>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -19,32 +20,14 @@ import { ElCarousel, ElCarouselItem, ElImage } from 'element-plus';
 
 // 图片数据
 const images = ref([
-  { id: 0, idView: require("@/assets/images/img1.png") },
-  { id: 1, idView: require("@/assets/images/img2.png") },
-  { id: 2, idView: require("@/assets/images/img3.png") },
+  { id: 0, idView: require("@/assets/images/img1.png"),desc:"总之岁月漫长，然而值得等待。 ——村上春树" },
+  { id: 1, idView: require("@/assets/images/img2.png"),desc:"假如你下午四点钟来，那么从三点钟起我就开始感到高兴。 ——《小王子》"},
+  { id: 2, idView: require("@/assets/images/img3.png"),desc:"你记得也好，最好你忘掉。 ——徐志摩《偶然》"},
 ]);
 
 // 轮播图高度
-const carouselHeight = ref('380px');
+const carouselHeight = ref('520px');
 
-// 设置轮播图高度的函数
-const setCarouselHeight = () => {
-  const width = document.documentElement.clientWidth;
-  if(width*0.3>380){
-    carouselHeight.value = `${width * 0.3}px`;
-  }
-};
-
-// 在组件挂载时和窗口大小变化时更新轮播图高度
-onMounted(() => {
-  setCarouselHeight();
-  window.addEventListener('resize', setCarouselHeight);
-});
-
-// 在组件卸载时移除事件监听器
-onUnmounted(() => {
-  window.removeEventListener('resize', setCarouselHeight);
-});
 </script>
 
 <style scoped>
@@ -59,5 +42,13 @@ onUnmounted(() => {
   height: 100%; /* 图片高度自适应 */
   display: block; /* 去除图片下方的空白间隙 */
   object-fit: cover; /* 保证图片按比例填充容器 */
+}
+.carousel-font{
+    position: absolute;
+    left:10px;
+    bottom: 20px;
+    font-size: 20px;
+    z-index: 1003;
+    color: var(--text-white1);
 }
 </style>

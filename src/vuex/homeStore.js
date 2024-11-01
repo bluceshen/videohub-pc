@@ -6,129 +6,114 @@ const homeStore = createStore({
       videoHomeData: [
         {
             title: "鲑鱼盛宴1",
-            author: "阿嚏",
-            releaseTime: "2023-11-13",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
             videoUrl: "/movie.mp4",
             coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
             videoUrl: "/movie.mp4",
             coverUrl: "/img2.png"
-        },
-        {
-            title: "鲑鱼盛宴22222",
-            author: "阿嚏2",
-            releaseTime: "2023-11-13",
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img3.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img4.png"
+        }
+        ,{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img5.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img6.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img7.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img8.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img1.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
             videoUrl: "/movie.mp4",
             coverUrl: "/img2.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img3.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img4.png"
+        }
+        ,{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img5.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img8.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img1.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img2.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img3.png"
+        },{
+            title: "鲑鱼盛宴1",
+            author: "阿嚏2123",
+            releaseTime: "2023-11-3",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img4.png"
         }
 
       ], // 存储视频主页的数据
@@ -141,11 +126,39 @@ const homeStore = createStore({
             coverUrl: "/img1.png"
         },
         {
-            title: "鲑鱼盛宴222",
+            title: "鲑鱼盛宴22222",
             author: "阿嚏2",
             releaseTime: "2023-11-13",
             videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
+            coverUrl: "/img3.png"
+        },
+        {
+            title: "鲑鱼盛宴22222",
+            author: "阿嚏2",
+            releaseTime: "2023-11-13",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img8.png"
+        },
+        {
+            title: "鲑鱼盛宴22222",
+            author: "阿嚏2",
+            releaseTime: "2023-11-13",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img9.png"
+        },
+        {
+            title: "鲑鱼盛宴22222",
+            author: "阿嚏2",
+            releaseTime: "2023-11-13",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img5.png"
+        },
+        {
+            title: "鲑鱼盛宴22222",
+            author: "阿嚏2",
+            releaseTime: "2023-11-13",
+            videoUrl: "/movie.mp4",
+            coverUrl: "/img7.png"
         }
 
       ] // 存储搜索结果的数据

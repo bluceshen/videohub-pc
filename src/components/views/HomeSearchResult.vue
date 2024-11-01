@@ -1,15 +1,8 @@
 <template>
   <div class="sub-grid-container">
     <!-- 使用 v-for 渲染 Video 组件列表 -->
-    <Video
-      v-for="video in videos"
-      :key="video.title"
-      :title="video.title"
-      :author="video.author"
-      :releaseTime="video.releaseTime"
-      :videoUrl="video.videoUrl"
-      :coverUrl="video.coverUrl"
-    ></Video>
+    <Video v-for="video in videos" :key="video.title" :title="video.title" :author="video.author"
+      :releaseTime="video.releaseTime" :videoUrl="video.videoUrl" :coverUrl="video.coverUrl"></Video>
   </div>
 </template>
 
@@ -26,25 +19,20 @@ const videos = ref(store.state.searchResultsData); // 从 store 中获取 search
 //   // store.dispatch('fetchVideos');
 // });
 </script>
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
-  <style scoped>
-  /* scoped表示这里的css样式不会泄露到其他组件 */
-  .sub-grid-container {
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+/* scoped表示这里的css样式不会泄露到其他组件 */
+.sub-grid-container {
   width: 100%;
   height: 100%;
-  grid-row: 2;
-  grid-column: 1;
 
+  /* 或者设置为一个固定的高度 */
   display: grid;
-
   grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-
-  place-items: center;
-
+  grid-auto-rows:250px;
+  /* 定义五列 */
   gap: 20px 10px;
-
   box-sizing: border-box;
   padding: 10px;
 }
-  </style>
+</style>
