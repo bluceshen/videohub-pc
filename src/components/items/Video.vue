@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 // 定义接收的props
 const props = defineProps({
