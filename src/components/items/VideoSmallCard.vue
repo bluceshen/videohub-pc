@@ -113,6 +113,7 @@ const handleMouseLeave = debounce(() => {
     position: relative;
     border-radius: 10px;
     background-color: aliceblue;
+    cursor: pointer;
 }
 
 
