@@ -1,7 +1,13 @@
 <template>
   <div class="grid-container">
-    <Search class="search"></Search>
-    <router-view></router-view>
+
+    <div class="search-container">
+          <Search class="search"></Search>
+    </div>
+    <div class="content-container">
+      <router-view></router-view>
+    </div>
+
   </div>
 </template>
 
@@ -20,10 +26,22 @@ let search = null;
   display: grid;
   padding: 0;
   grid-template-rows: 1fr 5fr;
+  overflow: hidden;
 }
 
 .search {
+  /* position: fixed; */
+}
+
+.search-container{
+  width: 100%;
+  height: 100%;
   grid-row: 1;
-  grid-column: 1;
+}
+.content-container{
+  background-color: var(--background-black2);
+  width: 100%;
+  height: 100%;
+  grid-row: 2;
 }
 </style>

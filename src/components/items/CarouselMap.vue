@@ -35,6 +35,7 @@ const carouselHeight = ref('520px');
   width: 100%; /* 设置轮播图的宽度 */
   height: 100%;
   margin: auto; /* 水平居中 */
+  border:solid var(--grey2) 1px;
 }
 
 .carousel-image {

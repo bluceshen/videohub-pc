@@ -115,7 +115,9 @@ onUnmounted(() => {
   grid-template-rows: 73% 27%;
   grid-template-columns: 1fr;
   transition: transform 0.3s ease;
-  border-radius: 5px;
+  border-radius: 3px;
+
+  border: solid var(--grey2) 1px;
 }
 
 .cover {
@@ -148,7 +150,6 @@ onUnmounted(() => {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 5fr 3fr;
-  border-top: var(--text-white1) solid 1px;
   position: relative;
 }
 

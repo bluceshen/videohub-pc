@@ -24,7 +24,7 @@ const videos = ref(store.state.searchResultsData); // 从 store 中获取 search
 /* scoped表示这里的css样式不会泄露到其他组件 */
 .sub-grid-container {
   width: 100%;
-  height: 100%;
+  height: 83.3vh;
 
   /* 或者设置为一个固定的高度 */
   display: grid;
@@ -34,5 +34,6 @@ const videos = ref(store.state.searchResultsData); // 从 store 中获取 search
   gap: 20px 10px;
   box-sizing: border-box;
   padding: 10px;
+  overflow-y: auto;
 }
 </style>

@@ -90,7 +90,8 @@ const homeStore = createStore({
             releaseTime: "2023-11-3",
             videoUrl: "/movie.mp4",
             coverUrl: "/img8.png"
-        },{
+        },
+        {
             title: "鲑鱼盛宴1",
             author: "阿嚏2123",
             releaseTime: "2023-11-3",
