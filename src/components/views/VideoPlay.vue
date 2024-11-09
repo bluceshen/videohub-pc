@@ -1,21 +1,28 @@
 <template>
   <div class="VideoPlay-Win">
       <div class="VideoPlay">
-        <VideoPlayer 
-          :releaseTime="`2023-11-3`" 
-          :videoTitle="`阿姆大撒旦发射点发斯特dddd丹`"
+        <VideoLeftPlayer 
+          :releaseTime="video.releaseTime" 
+          :videoTitle="video.title"
+          :videoUrl="video.videoUrl"
+          :videoDesc="'阿斯顿发射点发射点发射点反对犯得上地方发射点发射点发射点发生大的发'"
           >
-        </VideoPlayer>
+        </VideoLeftPlayer>
       </div>
       <div class="VideoList">
-        <VideoList></VideoList>
+        <VideoRightList></VideoRightList>
       </div>
   </div>
 </template>
 
 <script setup>
-import VideoPlayer from "../items/VideoPlayer.vue"
-import VideoList from "../items/VideoList.vue"
+import VideoLeftPlayer from "../items/VideoLeftPlayer.vue"
+import VideoRightList from "../items/VideoRightList.vue"
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+/* 切换为videoList */
+const store = useStore(); // 直接访问 Vuex store
+const video = ref(store.state.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
 
 
 </script>

@@ -11,7 +11,13 @@
         </div>
         <!-- 推荐列表 -->>
         <div class="video-list">
-            <VideoSmallCard class="video-card" v-for="item in 10" :key="item" style="height: 100px;">
+            <VideoSmallCard class="video-card" v-for="item in videos" :key="item.title" style="height: 100px;"
+            :videoTitle="item.title"
+            :videoUrl="item.videoUrl"
+            :author="item.author"
+            :playNum="555"
+            :commentNum="555"
+            :coverUrl="item.coverUrl">
             </VideoSmallCard>
         </div>
     </div>
@@ -19,10 +25,18 @@
 
 <script setup>
 import VideoSmallCard from './VideoSmallCard.vue';
+import { useStore } from 'vuex';
+import { ref } from 'vue';
+
+/* 切换为videoList */
+const store = useStore(); // 直接访问 Vuex store
+const videos = ref(store.state.videoHomeData); // 从 store 中获取 videoHomeData 数组
+
 
 const props = defineProps({
     userImgUrl: String,
     userName: String,
+    videoList: Array,
 })
 
 </script>
@@ -100,5 +114,4 @@ const props = defineProps({
     padding: 0;
     margin-bottom: 12px;
 }
-
 </style>

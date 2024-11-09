@@ -11,7 +11,7 @@ const homeStore = createStore({
             videoUrl: "/movie.mp4",
             coverUrl: "/img1.png"
         },{
-            title: "鲑鱼盛宴ASDFASDFA啊手动阀手动阀撒旦发射点发啊但是发射点发到付1",
+            title: "鲑鱼盛宴ASDFASDFA啊手动阀手动阀撒旦发射点发啊但是发射点发到付1af阿斯顿发射点反对啊打发撒旦飞洒地方鲑鱼盛宴ASDFASDFA啊手动阀手动阀撒旦发射点发啊但是发射点发到付1af阿斯顿发射点反对啊打发撒旦飞洒地方",
             author: "阿嚏2123",
             releaseTime: "2023-11-3",
             videoUrl: "/movie.mp4",

@@ -4,10 +4,10 @@
         <div class="viewbox_info">
             <div class="viewbox_report">
                 <div class="video-title">
-                    <span>{{ videoTitle }}</span>
+                    <span :title="videoTitle" >{{ videoTitle }}</span>
                 </div>
                 <div class="return_button">
-                    <button class="returnHome" style="height: 100%; width:100%;"> 返回 </button>
+                    <el-button color="#000" :dark="isDark" plain>返回</el-button>
                 </div>
             </div>
             <div class="video-meta">
@@ -17,7 +17,8 @@
         <!-- 视频播放器 -->
         <div class="video-wrap">
             <video style="width: 100%; height:100%; object-fit: fill;" controls>
-                <source src="../../../public/movie.mp4" type="video/mp4" />
+                <source :src="video.videoUrl" type="video/mp4" />
+                <p>视频加载失败</p>
             </video>
         </div>
         <!-- 底部工具栏 -->
@@ -42,13 +43,7 @@
         <div class="video-desc-container">
             <div class="video-desc-info" ref="desc_info">
                 <p ref="desc_text">
-                    The -webkit-line-clamp CSS property<br />
-                    allows limiting of the contents of<br />
-                    a block to the specified number of lines.a block to the specified number of lines.a block to the
-                    specified number of lines.a block to the specified number of lines.<br>
-                    a block to the specified number of lines.a block to the specified number of lines.a block to the
-                    specified number of lines.a block to the specified number of lines.
-                    a block to the specified number of lines.a block to the specified number of lines.a block to the
+                    {{videoDesc}}
                 </p>
             </div>
             <button v-if="showOk" ref="toggleButton" class="toggle-button" @click="handlerClick">更多</button>
@@ -63,17 +58,19 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useStore } from 'vuex';
+
+/* 切换为videoList */
+const store = useStore(); // 直接访问 Vuex store
+const video = ref(store.state.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
 
 // 定义接收的props
 const props = defineProps({
     videoTitle: String,
-    author: String,
     releaseTime: String,
     videoUrl: String,
-    coverUrl: String,
     videoDesc: String
 });
-
 
 /* 控制 视频简介相关的展开/关闭按钮  */
 const showOk = ref(false);
@@ -126,7 +123,7 @@ function handlerClick() {
     0% {
         transform: translateY(0) scale(1);
     }
-    50% {
+    25% {
         transform: translateY(-10px) scale(1.5);
     }
     75%{
@@ -170,21 +167,12 @@ function handlerClick() {
 .viewbox_info .video-title {
     color: var(--text-white1);
     font-size: 20px;
-}
-
-/*  返回按钮  */
-.return_button button {
-    width: 60px;
-    height: 20px;
-    border-radius: 30%;
-    line-height: 20px;
-    font-size: 13px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    word-break: break-all;
     cursor: pointer;
-    background-color: rgb(192, 192, 192)
-}
-
-.return_button button:hover {
-    background-color: var(--background-black4);
 }
 
 /* 发布时间 */
@@ -218,7 +206,6 @@ function handlerClick() {
 
 .video-toolbar-container .video-like:hover{
     transform: scale(1.1);
-    color: aqua;
     cursor: pointer;
     transition: transform 0.3s ease;
     transition: color 0.3s ease;
@@ -226,7 +213,6 @@ function handlerClick() {
 
 .video-toolbar-container .video-collect:hover{
     transform: scale(1.1);
-    color: aqua;
     cursor: pointer;
     transition: transform 0.3s ease;
     transition: color 0.3s ease;
@@ -280,6 +266,5 @@ function handlerClick() {
     display: flex;
     flex-direction: column;
     background-color: var(--text-white1);
-
 }
 </style>

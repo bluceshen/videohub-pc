@@ -2,16 +2,16 @@
     <div class="video-small-card">
         <div class="pic-box" ref="playerBox" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
             <video ref="video" muted style="position:absolute; width: 100%; height:100%; object-fit: fill;" disablePictureInPicture loop>
-                <source src="../../../public/movie.mp4" type="video/mp4" />
+                <source :src="videoUrl" type="video/mp4" />
             </video>
             <!--封面-->
             <div class="cover" :class="{ hidden: !isCover }">
-                <img :src="'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'" alt="封面图片" />
+                <img :src="coverUrl" alt="封面图片" />
             </div>
         </div>
         <!-- 视频信息 -->
         <div class="card-info">
-            <a href="#"> 视频标题阿啊手动阀手动阿斯蒂芬撒地方阀手动阀手动阀打发斯顿发大水发射点发士大夫打发打发撒旦 </a>
+            <a href="#" :title="videoTitle">{{videoTitle}}</a>
             <div class="upname">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -22,7 +22,7 @@
                             d="M8.686 16.926c-.864.527-3.131 1.602-1.75 2.947C7.61 20.53 8.36 21 9.306 21h5.389c.944 0 1.695-.47 2.37-1.127c1.38-1.345-.887-2.42-1.751-2.947a6.39 6.39 0 0 0-6.628 0M14.5 11a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0" />
                     </g>
                 </svg>
-                <span style="margin-left: 10px;">张伟</span>
+                <span style="margin-left: 10px;">{{author}}</span>
             </div>
             <!--视频播放量-->
             <div class="playinfo">
@@ -31,7 +31,7 @@
                         <path fill="currentColor"
                             d="m10.65 15.75l4.875-3.125q.35-.225.35-.625t-.35-.625L10.65 8.25q-.375-.25-.763-.038t-.387.663v6.25q0 .45.388.663t.762-.038M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
                     </svg>
-                    <p>555</p>
+                    <p>{{playNum}}</p>
                 </div>
 
                 <div class="video-comment">
@@ -39,7 +39,7 @@
                         <path fill="currentColor"
                             d="M6.5 13.5h11v-1h-11zm0-3h11v-1h-11zm0-3h11v-1h-11zM3 17V3h18v17.077L17.923 17zm1-1h14.35L20 17.644V4H4zm0 0V4z" />
                     </svg>
-                    <p>556</p>
+                    <p>{{ commentNum }}</p>
                 </div>
 
             </div>
@@ -48,23 +48,22 @@
 </template>
 
 <script setup>
-import { onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 import { debounce } from 'lodash';
 
 // 定义接收的props
 const props = defineProps({
-    title: String,
+    videoTitle: String,
     author: String,
-    releaseTime: String,
     videoUrl: String,
     coverUrl: String,
-    showInfo: Boolean,
+    playNum: Number,
+    commentNum: Number
 });
 
 // 响应式变量
 const isCover = ref(true);
 const video = ref(null);
-
 const handlePlay = async () => {
   try {
     if (video.value) {
@@ -162,6 +161,7 @@ const handleMouseLeave = debounce(() => {
     line-height: 20px;
     height: 40px;
     text-decoration: none;
+    cursor: pointer;
 }
 
 /* up名字 */
