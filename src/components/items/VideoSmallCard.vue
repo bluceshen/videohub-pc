@@ -167,7 +167,6 @@ const handleMouseLeave = debounce(() => {
 
 /* up名字 */
 .upname {
-    cursor: pointer;
     display: flex;
     margin-top: 10px;
     height: 20px;
