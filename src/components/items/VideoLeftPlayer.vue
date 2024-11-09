@@ -10,10 +10,12 @@
                     <el-button color="#000" :dark="isDark" plain>返回</el-button>
                 </div>
             </div>
+            <br>
             <div class="video-meta">
                 <span>{{ releaseTime }}</span>
             </div>
         </div>
+        <br>
         <!-- 视频播放器 -->
         <div class="video-wrap">
             <video style="width: 100%; height:100%; object-fit: fill;" controls>
@@ -50,7 +52,10 @@
         </div>
         <!-- 评论列表 -->
         <div class="video-comment-container">
-            <div class="video-comment-info"> 评论 </div>
+            <div class="video-comment-info">
+                <Comment></Comment>
+            </div>
+            
         </div>
     </div>
 
@@ -59,7 +64,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex';
-
+import Comment from './Comment.vue';
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
 const video = ref(store.state.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
@@ -262,7 +267,6 @@ function handlerClick() {
 /* 视频播放评论 */
 .video-comment-container {
     width: 100%;
-    height: 800px;
     display: flex;
     flex-direction: column;
     background-color: var(--text-white1);

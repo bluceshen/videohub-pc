@@ -31,14 +31,15 @@ const video = ref(store.state.videoHomeData[1]); // 从 store 中获取 videoHom
 <style scoped>
 /* scoped表示这里的css样式不会泄露到其他组件 */
 .VideoPlay-Win {
-  max-width: 2540px;
-  min-width: 1280px;
+  max-width: 2000px;
+  min-width: 1150px;
   width: auto;
   height: auto;
   grid-gap: 0 50px;
   grid-template-columns: 2fr 1fr;
   margin: 0 auto;
   padding: 0 50px;
+  /* 这里加了50px就应该在min-width-50px */
   display: grid;
   box-sizing: content-box;
   justify-content: center;

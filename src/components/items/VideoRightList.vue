@@ -102,10 +102,16 @@ const props = defineProps({
 
 /* 视频列表 */
 .video-list{
+    width:100%;
+    padding-right: 10px;
+    height: 68vh;
+    
     display: flex;
     flex-direction: column;
     background-color:var(--background-black2);
-    height: fit-content;
+    overflow: auto;
+    
+    /* height: fit-content; */
 }
 
 /* 视频小框 */
