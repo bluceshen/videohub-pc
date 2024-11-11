@@ -6,9 +6,6 @@
                 <div class="video-title">
                     <span :title="videoTitle" >{{ videoTitle }}</span>
                 </div>
-                <div class="return_button">
-                    <el-button color="#000" :dark="isDark" plain>返回</el-button>
-                </div>
             </div>
             <br>
             <div class="video-meta">
@@ -172,12 +169,14 @@ function handlerClick() {
 .viewbox_info .video-title {
     color: var(--text-white1);
     font-size: 20px;
+    cursor: pointer;
+    /*
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
     word-break: break-all;
-    cursor: pointer;
+    */
 }
 
 /* 发布时间 */

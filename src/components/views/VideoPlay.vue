@@ -22,7 +22,7 @@ import { ref } from 'vue';
 import { useStore } from 'vuex';
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
-const video = ref(store.state.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
+const video = ref(store.state.videoHomeData[2]); // 从 store 中获取 videoHomeData 数组
 
 
 </script>
