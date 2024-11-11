@@ -44,6 +44,7 @@ const carouselHeight = ref('520px');
   display: block; /* 去除图片下方的空白间隙 */
   object-fit: cover; /* 保证图片按比例填充容器 */
 }
+
 .carousel-font{
     position: absolute;
     left:10px;
