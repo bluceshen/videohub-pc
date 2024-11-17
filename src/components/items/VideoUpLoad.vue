@@ -173,7 +173,7 @@ function handleUpload() {
 
 /* 视频展示框 */
 .video {
-    margin: 20px 10px;
+    margin: 14px 10px;
     border-radius: 3px;
     border: 3px solid white;
 }
@@ -188,7 +188,6 @@ function handleUpload() {
 .video-upload {
     margin: 0 10px;
     margin-top: 47px;
-    margin-bottom: 10px;
     height: 100px;
     box-sizing: border-box;
 }
@@ -218,7 +217,7 @@ function handleUpload() {
 .video-image {
     height: 182px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 14px;
     display: grid;
     grid-template-columns: 90px auto;
     grid-template-rows: 1fr;
