@@ -13,8 +13,6 @@
 
 <script setup>
 import Search from "../items/Search.vue";
-let search = null;
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -27,10 +25,6 @@ let search = null;
   padding: 0;
   grid-template-rows: 1fr 5fr;
   overflow: hidden;
-}
-
-.search {
-  /* position: fixed; */
 }
 
 .search-container{

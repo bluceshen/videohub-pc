@@ -1,5 +1,5 @@
 <template>
-    <el-menu default-active="1" class="el-menu" router>
+    <el-menu :default-active="activeIdx" class="el-menu" router>
         <div class="grid-container">
             <div class="sub-grid-container">
                 <div class="logo-img">
@@ -35,7 +35,7 @@
                     <span class="router-text">我的视频</span>
                 </div>
             </el-menu-item>
-            <el-menu-item index="/collection">
+            <el-menu-item index="/myCollection">
                 <div>
                     <el-icon>
                         <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
@@ -66,8 +66,7 @@
             <div class="avatar">
                 <el-avatar  @click="handleAvatarClick" :size="80" :src="avatarSrc"
                 style="border: 1px solid black">
-               
-            </el-avatar> 
+                </el-avatar> 
             <div class="status-dot"></div>
             </div>
             
@@ -77,7 +76,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -85,6 +84,7 @@ const avatarSrc = require("@/assets/avatar.png");
 const handleAvatarClick = () => {
     router.push("/Me");
 };
+const activeIdx = computed(()=>router.currentRoute.value.path);
 </script>
 
 <style scoped>
@@ -139,7 +139,7 @@ const handleAvatarClick = () => {
 
 /* 悬停效果 */
 .el-menu-item:hover {
-    background-color: var(--background-black3);;
+    background-color: var(--background-black3);
     transform: scale(1.1);
     /* 点击时的缩放效果 */
 }
@@ -148,6 +148,12 @@ const handleAvatarClick = () => {
 .el-menu-item:active {
     transform: scale(0.9);
     /* 点击时的缩放效果 */
+}
+
+/* 侧边栏高亮样式 */
+.el-menu-item.is-active {
+  background-color: var(--background-black3);
+  color: white; /* 高亮字体颜色 */
 }
 
 .el-menu-item {

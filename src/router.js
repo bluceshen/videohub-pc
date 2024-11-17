@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/components/views/Home.vue";
-import Collection from "@/components/views/Collection.vue";
+import MyCollection from "@/components/views/MyCollection.vue";
 import Me from "@/components/views/Me.vue";
 import MyVideo from "@/components/views/MyVideo.vue";
 import Upload from "@/components/views/Upload.vue";
 import VideoPlay from "@/components/views/VideoPlay.vue";
-
+import MeInfo from "./components/views/MeInfo.vue";
+import MePassword from "./components/views/MePassword.vue";
 import HomeOrigin from "./components/views/HomeOrigin.vue";
 import HomeSearchResult from "./components/views/HomeSearchResult.vue";
 // 定义路由配置
@@ -29,11 +30,21 @@ const routes = [
     path: "/me",
     name: "Me",
     component: Me,
+    children: [
+      {
+        path: "info",
+        component: MeInfo,
+      },
+      {
+        path: "password",
+        component: MePassword,
+      },
+    ],
   },
   {
-    path: "/collection",
-    name: "Collection",
-    component: Collection,
+    path: "/myCollection",
+    name: "MyCollection",
+    component: MyCollection,
   },
   {
     path: "/myVideo",

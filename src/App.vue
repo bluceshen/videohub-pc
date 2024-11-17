@@ -83,5 +83,9 @@ body,
   --on-green2:#80d380;
   --off-red:#FF4500;
   --off-red2:#faaf93;
+
+  --white:rgba(255,255,255,1);
+
+  --yellow:rgba(235, 188, 122, 1);
 }
 </style>

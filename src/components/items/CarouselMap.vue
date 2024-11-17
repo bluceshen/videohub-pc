@@ -39,7 +39,8 @@ const carouselHeight = ref('520px');
 }
 
 .carousel-image {
-  width: 100%; /* 图片宽度填满容器 */
+  margin-left:0.5%;
+  width: 99%; /* 图片宽度填满容器 */
   height: 100%; /* 图片高度自适应 */
   display: block; /* 去除图片下方的空白间隙 */
   object-fit: cover; /* 保证图片按比例填充容器 */

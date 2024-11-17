@@ -12,7 +12,7 @@ import { useStore } from 'vuex';
 import Video from '../items/Video.vue';
 
 const store = useStore(); // 直接访问 Vuex store
-const videos = ref(store.state.searchResultsData); // 从 store 中获取 searchResultsData 数组
+const videos = ref(store.state.home.searchResultsData); // 从 store 中获取 searchResultsData 数组
 
 // 当组件挂载时，从 API 获取视频数据
 // onMounted(() => {

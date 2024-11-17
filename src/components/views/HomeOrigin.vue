@@ -14,12 +14,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import Comment_father from '../items/Comment.vue';
 import Video from '../items/Video.vue';
 import CarouselMap from '../items/CarouselMap.vue';
 
 const store = useStore(); // 直接访问 Vuex store
-const videos = ref(store.state.videoHomeData); // 从 store 中获取 videoHomeData 数组
+const videos = ref(store.state.home.videoHomeData); // 从 store 中获取 videoHomeData 数组
 
 // 当组件挂载时，从 API 获取视频数据
 // onMounted(() => {
@@ -60,19 +59,15 @@ const videos = ref(store.state.videoHomeData); // 从 store 中获取 videoHomeD
 }
 
 .sub-grid-container::-webkit-scrollbar-thumb:hover {
-  background: var(--background-black1); /* 滚动条滑块悬停背景色 */
+  background: var(--text-white2); /* 滚动条滑块悬停背景色 */
 }
-/* Firefox滚动条样式 */
-.sub-grid-container {
-  scrollbar-width: thin; /* 设置滚动条宽度 */
-  scrollbar-color: #bb4040 #d15353; /* 设置滚动条滑块和轨道的颜色 */
-}
+
 
 .carouse-map {
   grid-column: 1 / span 3; /* 从第1列开始，跨越3列 */
   grid-row: 1 / span 2; /* 从第1行开始，跨越2行 */
   z-index: 1050;
-  background-color: rgb(56, 140, 212);
+  /* background-color: rgb(56, 140, 212); */
   display: grid;
   place-items: center;
 }

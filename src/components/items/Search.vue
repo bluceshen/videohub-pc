@@ -55,14 +55,21 @@ const searchValue = ref("");
     place-items: center;
 
     z-index: 1000;
-    background-color:var(--text-white1);
+    background-color:var(--background-black3);
     border-radius: 5px;
 }
 
 .search{
     grid-column:2/11;
 }
+::v-deep .el-input__wrapper {
+  background-color:var(--background-black3);
+  box-shadow: none !important;
+}
 
+::v-deep .el-input__inner {
+  color: var(--text-white1); /* 设置输入文字颜色 */
+}
 .search-icon {
     grid-column: 11;
 }
