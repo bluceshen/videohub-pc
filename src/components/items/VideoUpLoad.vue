@@ -133,15 +133,21 @@ function handlePreviw() {
         return;
     }
 }
-
-function handleUpload() {
-    alert('上传成功');
+function clearCinInfo(){
     // 清空输入框
     cinVideoTitle.value = '';
     cinVideoDesc.value = '';
     cinVideoUrl.value = '';
     cinImageUrl.value = '';
     imageUrl.value = false;
+    videoTitle.value = '';
+    videoDesc.value = '';
+    releaseTime.value = '';
+}
+
+function handleUpload() {
+    alert('上传成功');
+    clearCinInfo();
 }
 
 

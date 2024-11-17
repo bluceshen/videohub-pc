@@ -5,13 +5,13 @@
           :releaseTime="video.releaseTime" 
           :videoTitle="video.title"
           :videoUrl="video.videoUrl"
-          :videoDesc="'阿斯顿发射点发射点发射点反对犯得上地方发射点发射点发射点发生大的发'"
+          :videoDesc="video.videoDesc"
           >
           <Comment></Comment>
         </VideoLeftPlayer>
       </div>
       <div class="VideoList">
-        <VideoRightList></VideoRightList>
+        <VideoRightList :upName="video.author"></VideoRightList>
       </div>
   </div>
 </template>
@@ -22,9 +22,10 @@ import VideoRightList from "../items/VideoRightList.vue"
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import Comment from '../items/Comment.vue';
+
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
-const video = ref(store.state.videoHomeData[2]); // 从 store 中获取 videoHomeData 数组
+const video = ref(store.state.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
 
 
 </script>

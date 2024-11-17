@@ -7,7 +7,7 @@
                     <img :src="'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'" />
                 </div>
                 <div class="up-name">
-                    <span title="牛魔王打发手动阀的"> 牛魔王打发手动阀的 </span>
+                    <span title="牛魔王打发手动阀的"> {{ upName }} </span>
                 </div>
             </div>
             <div class="return_button">
@@ -33,10 +33,9 @@ import { ref } from 'vue';
 const store = useStore(); // 直接访问 Vuex store
 const videos = ref(store.state.videoHomeData); // 从 store 中获取 videoHomeData 数组
 
-
 const props = defineProps({
     userImgUrl: String,
-    userName: String,
+    upName: String,
     videoList: Array,
 })
 

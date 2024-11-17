@@ -6,28 +6,31 @@ const homeStore = createStore({
       videoHomeData: [
         {
             title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
+            author: "阿嚏23",
             releaseTime: "2023-11-3",
             videoUrl: "/movie.mp4",
             coverUrl: "/img1.png"
         },{
-            title: "鲑鱼盛宴ASDFASDFA啊手动阀手动阀撒旦发射点发啊但是发射点发到付1af阿斯顿发射点反对啊打发撒旦飞洒地方鲑鱼盛宴ASDFASDFA啊手动阀手动阀撒旦发射点发啊但是发射点发到付1af阿斯顿发射点反对啊打发撒旦飞洒地方",
-            author: "阿嚏2123",
+            title: "鲑鱼盛宴AS发射点反对啊打发撒旦旦发射点发啊但是发射点发到付1af阿斯顿发射点反对啊打发撒旦飞洒地方",
+            author: "阿嚏2123qwer",
             releaseTime: "2023-11-3",
             videoUrl: "/movie1.mp4",
-            coverUrl: "/img2.png"
+            coverUrl: "/img2.png",
+            videoDesc:"鲑鱼盛宴ASDFASDFA啊手动阀手动阀撒旦发射点发啊但是发射点发到付1af阿斯顿发射点反对啊打发撒旦飞洒地方鲑鱼盛宴ASDFASDFA啊手动阀手动阀撒旦发射点发啊但是发射点发到付1af阿斯顿发射点反对啊打发撒旦飞洒地方\n鲑鱼盛宴ASDFASDFA啊手动阀手动阀撒旦发射点发啊但是发射点发到付1af阿斯顿发射点反对啊打发撒旦飞洒地方鲑鱼盛宴ASDFASDFA啊手动阀手动阀撒旦发射点发啊但是发射点发到付1af阿斯顿发射点反对啊打发撒旦飞洒地方"
         },{
             title: "鲑鱼盛宴1",
-            author: "阿嚏2123",
+            author: "阿嚏2sdfgfg123",
             releaseTime: "2023-11-3",
             videoUrl: "/movie2.mp4",
-            coverUrl: "/img3.png"
+            coverUrl: "/img3.png",
+            videoDesc:"发1af阿斯顿发射阿斯顿发射点反对啊打发撒旦飞洒地方"
         },{
             title: "鲑鱼盛宴1",
             author: "阿嚏2123",
             releaseTime: "2023-11-3",
             videoUrl: "/movie3.mp4",
-            coverUrl: "/img4.png"
+            coverUrl: "/img4.png",
+             videoDesc:"发1af阿斯顿发射阿斯顿发射点反对啊打发撒旦飞洒地方"
         }
         ,{
             title: "鲑鱼盛宴1",
