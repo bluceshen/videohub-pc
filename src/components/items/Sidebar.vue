@@ -82,7 +82,7 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const avatarSrc = require("@/assets/avatar.png");
 const handleAvatarClick = () => {
-    router.push("/Me");
+    router.push("/me/info");
 };
 const activeIdx = computed(()=>router.currentRoute.value.path);
 </script>
