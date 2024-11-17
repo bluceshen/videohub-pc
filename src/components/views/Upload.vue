@@ -15,10 +15,7 @@ import Upload from '../items/VideoUpLoad.vue';
 <style scoped>
 /* scoped表示这里的css样式不会泄露到其他组件 */
 .upload {
-  max-width: 2000px;
-  min-width: 1150px;
   width: 100%;
-  height: auto;
-  margin: 0 auto;
+  height: 100%;
 }
 </style>

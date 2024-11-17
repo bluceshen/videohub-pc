@@ -150,9 +150,10 @@ function handlerClick() {
 /* 视频播放上部标题 */
 .viewbox_info {
     position: relative;
-    height: 104px;
+    height: 80px;
+    left:10px;
     box-sizing: border-box;
-    padding-top: 22px;
+    /* padding-top: 22px; */
 }
 
 /*  视频播放标题，日期 */
@@ -188,7 +189,7 @@ function handlerClick() {
 /* 点赞收藏 */
 .video-toolbar-container {
     width: 100%;
-    height: 40px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -225,12 +226,13 @@ function handlerClick() {
 /* 视频播放简介 */
 .video-desc-container {
     width: 100%;
-    background-color: var(--background-black4);
+    /* background-color: var(--background-black4); */
     display: flex;
     flex-direction: column;
 }
 
 .video-desc-info {
+    margin-left:10px;
     min-height: 60px;
     max-height: 80px;
     font: 13px;

@@ -40,8 +40,8 @@
                 <textarea v-model="cinVideoDesc" placeholder="请输入视频简介"></textarea>
             </div>
             <div class="video-upload-btn">
-                <button @click="handlePreviw">预览</button>
-                <button @click="handleUpload">发布</button>
+                <el-button @click="handlePreviw">预览</el-button>
+                <el-button @click="handleUpload">发布</el-button>
             </div>
         </div>
     </div>
@@ -165,35 +165,40 @@ function handleUpload() {
 
 /* 左侧视图 */
 .upload-left {
+    display: grid;
+    grid-template-rows:4fr 1fr;
     grid-column: 1;
     background-color: var(--background-black2);
     height: 100%;
-    border-right: 3px solid rgb(247, 246, 246);
+    border-right: 1px solid var(--text-white3);
 }
 
 /* 视频展示框 */
 .video {
     margin: 14px 10px;
     border-radius: 3px;
-    border: 3px solid white;
+    border: 1px solid var(--text-white3);
 }
 
 .video .video-player{
     width: 100%;
-    height: 565px;
+    height: 100%;
 }
 
 
 /* 上传按钮框 */
 .video-upload {
     margin: 0 10px;
-    margin-top: 47px;
     height: 100px;
     box-sizing: border-box;
+    border:none;
+    /* border:1px solid var(--text-white2); */
+    /* color: #8c939d; */
 }
 
 .video-upload .upload-demo * {
-    height: 100px;
+    background-color: var(--background-black2);
+    height: 100%;
     margin: 0;
 }
 
@@ -241,7 +246,8 @@ function handleUpload() {
 
 /* 封面上传框样式 */
 .video-image .avatar-uploader-trigger {
-    border: 2px solid #d9d9d9;
+    background-color: var(--text-white1);
+    border: 1px solid var(--text-white3);
     border-radius: 6px;
     cursor: pointer;
     position: relative;
@@ -254,10 +260,6 @@ function handleUpload() {
     transition: border-color 0.3s;
 }
 
-
-.video-image .avatar-uploader-trigger:hover {
-    border-color: #409eff;
-}
 
 .video-image .avatar-uploader-trigger img {
     width: 100%;
@@ -291,6 +293,9 @@ function handleUpload() {
     resize: none;
     grid-column: 2;
     height: 30px;
+    background-color: var(--background-black3);
+    color: var(--text-white1);
+    border:none;
 }
 
 /* 简介 */
@@ -305,11 +310,13 @@ function handleUpload() {
 }
 
 .video-desc .videoDesc {
-    grid-column: 1;
     margin-left: 30px;
 }
 
 .video-desc textarea {
+    color: var(--text-white1);
+    background-color: var(--background-black3);
+    border:none;
     grid-column: 2;
     height: 200px;
     resize: none;
@@ -332,9 +339,14 @@ function handleUpload() {
     width: 100px;
     height: 50px;
     border-radius: 10px;
-    background-color: rgb(236, 89, 15);
     cursor: pointer;
     box-sizing: border-box;
-    color: var(--text-white2);
+    color: var(--background-black2);
+}
+
+.el-button{
+    color:var(--background-black2);
+    background-color: var(--text-white2);
+    border: none;
 }
 </style>
