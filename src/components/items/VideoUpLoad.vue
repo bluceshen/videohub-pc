@@ -180,18 +180,29 @@ function handleUpload() {
 
 .video .video-player{
     width: 100%;
-    height: 100%;
+    height: 565px;
 }
 
 
 /* 上传按钮框 */
 .video-upload {
     margin: 0 10px;
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin-top: 47px;
+    margin-bottom: 10px;
     height: 100px;
+    box-sizing: border-box;
 }
 
+.video-upload .upload-demo * {
+    height: 100px;
+    margin: 0;
+}
+
+.video-upload .upload-demo .el-icon--upload {
+    width: 100%;
+    height: 100px;
+    margin-top: -65px;
+}
 
 /* 右侧视图 */
 .upload-right {
@@ -207,7 +218,7 @@ function handleUpload() {
 .video-image {
     height: 182px;
     width: 100%;
-    margin-top: 50px;
+    margin-top: 20px;
     display: grid;
     grid-template-columns: 90px auto;
     grid-template-rows: 1fr;
@@ -264,7 +275,7 @@ function handleUpload() {
 .video-title {
     height: 50px;
     width: 100%;
-    margin-top: 80px;
+    margin-top: 76px;
     border-radius: 6px;
     display: grid;
     grid-template-columns: 90px 4fr 1fr;
