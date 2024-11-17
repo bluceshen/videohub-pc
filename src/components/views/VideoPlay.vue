@@ -7,6 +7,7 @@
           :videoUrl="video.videoUrl"
           :videoDesc="'阿斯顿发射点发射点发射点反对犯得上地方发射点发射点发射点发生大的发'"
           >
+          <Comment></Comment>
         </VideoLeftPlayer>
       </div>
       <div class="VideoList">
@@ -20,6 +21,7 @@ import VideoLeftPlayer from "../items/VideoLeftPlayer.vue"
 import VideoRightList from "../items/VideoRightList.vue"
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import Comment from '../items/Comment.vue';
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
 const video = ref(store.state.videoHomeData[2]); // 从 store 中获取 videoHomeData 数组
