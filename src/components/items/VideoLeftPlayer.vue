@@ -6,9 +6,6 @@
                 <div class="video-title">
                     <span :title="videoTitle" >{{ videoTitle }}</span>
                 </div>
-                <div class="return_button">
-                    <el-button color="#000" :dark="isDark" plain>返回</el-button>
-                </div>
             </div>
             <br>
             <div class="video-meta">
@@ -18,8 +15,8 @@
         <br>
         <!-- 视频播放器 -->
         <div class="video-wrap">
-            <video style="width: 100%; height:100%; object-fit: fill;" controls>
-                <source :src="video.videoUrl" type="video/mp4" />
+            <video style="width: 100%; height:100%; object-fit: fill;" controls :src="videoUrl">
+                <source :src="videoUrl" type="video/mp4" />
                 <p>视频加载失败</p>
             </video>
         </div>
@@ -53,7 +50,7 @@
         <!-- 评论列表 -->
         <div class="video-comment-container">
             <div class="video-comment-info">
-                <Comment></Comment>
+                <slot></slot>
             </div>
             
         </div>
@@ -64,7 +61,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useStore } from 'vuex';
-import Comment from './Comment.vue';
+
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
 const video = ref(store.state.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
@@ -144,7 +141,7 @@ function handlerClick() {
     width: 100%;
     margin: 0;
     padding: 0;
-    height: fit-content;
+    height: 100%;
     display: flex;
     flex-direction: column;
     background-color: var(--background-black2);
@@ -153,9 +150,10 @@ function handlerClick() {
 /* 视频播放上部标题 */
 .viewbox_info {
     position: relative;
-    height: 104px;
+    height: 80px;
+    left:10px;
     box-sizing: border-box;
-    padding-top: 22px;
+    /* padding-top: 22px; */
 }
 
 /*  视频播放标题，日期 */
@@ -172,10 +170,6 @@ function handlerClick() {
 .viewbox_info .video-title {
     color: var(--text-white1);
     font-size: 20px;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    word-break: break-all;
     cursor: pointer;
 }
 
@@ -195,7 +189,7 @@ function handlerClick() {
 /* 点赞收藏 */
 .video-toolbar-container {
     width: 100%;
-    height: 40px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -232,12 +226,13 @@ function handlerClick() {
 /* 视频播放简介 */
 .video-desc-container {
     width: 100%;
-    background-color: var(--background-black4);
+    /* background-color: var(--background-black4); */
     display: flex;
     flex-direction: column;
 }
 
 .video-desc-info {
+    margin-left:10px;
     min-height: 60px;
     max-height: 80px;
     font: 13px;
@@ -264,10 +259,12 @@ function handlerClick() {
 
 
 /* 视频播放评论 */
+/*
 .video-comment-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     background-color: var(--text-white1);
 }
+*/
 </style>
