@@ -31,7 +31,7 @@ import { ref } from 'vue';
 
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
-const videos = ref(store.state.videoHomeData); // 从 store 中获取 videoHomeData 数组
+const videos = ref(store.state.home.videoHomeData); // 从 store 中获取 videoHomeData 数组
 
 const props = defineProps({
     userImgUrl: String,
