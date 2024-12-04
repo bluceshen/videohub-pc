@@ -2,7 +2,7 @@
   <div class="search-box">
     <div class ="search-container">
       <el-input class="search" v-model="searchValue" placeholder="搜索视频"></el-input>
-      <div class="search-icon">
+      <div class="search-icon" @click="search">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="2em"
@@ -26,7 +26,28 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from 'vuex';
+
+const props = defineProps(['searchType']);
+
+const store = useStore(); // 直接访问 Vuex store
 const searchValue = ref("");
+const router = useRouter();
+function search() {
+  switch(props.searchType){
+    case 'home':
+      if(searchValue.value){
+        store.dispatch('home/setLike',searchValue.value);
+        router.push("/home/search");
+      }else{
+        console.log("搜索参数不能为空");
+      }
+      break;
+    case 'collection':
+      store.dispatch('user/setCollectionLike',searchValue.value);
+  }
+}
 </script>
 
 <style scoped>

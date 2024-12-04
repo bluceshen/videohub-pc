@@ -1,196 +1,60 @@
-import { createStore } from 'vuex';
-
 // 定义模块对象
 const homeStore = {
   namespaced: true, // 启用命名空间
   state() {
     return {
-      videoHomeData: [
-        {
-          title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-          author: "阿嚏2123",
-          releaseTime: "2023-11-3",
-          videoUrl: "/movie.mp4",
-          coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          }
-          ,
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          }
-          ,
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴s啊打发士大夫士大夫士大夫地方撒地方的WERWER阿斯顿发射点反对1",
-            author: "阿嚏2123",
-            releaseTime: "2023-11-3",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-      ], // 存储视频主页的数据
-      searchResultsData: [
-        {
-          title: "鲑鱼盛宴133",
-          author: "阿嚏",
-          releaseTime: "2023-11-13",
-          videoUrl: "/movie.mp4",
-          coverUrl: "/img1.png"
-        },
-        {
-            title: "鲑鱼盛宴133",
-            author: "阿嚏",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴133",
-            author: "阿嚏",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴133",
-            author: "阿嚏",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴133",
-            author: "阿嚏",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴133",
-            author: "阿嚏",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-          {
-            title: "鲑鱼盛宴133",
-            author: "阿嚏",
-            releaseTime: "2023-11-13",
-            videoUrl: "/movie.mp4",
-            coverUrl: "/img1.png"
-          },
-      ] // 存储搜索结果的数据
+      videoHomeData: [], // 存储视频主页的数据
+      like: "",
+      videoHomeSearchResultsData: [], // 存储搜索结果的数据
+      currentVideoData: null,
     };
   },
   mutations: {
     // 定义你的 mutations
+    SET_VIDEO_HOME_DATA(state, payload) {
+      state.videoHomeData = payload;
+    },
+    SET_SEARCH_RESULTS_DATA(state, payload) {
+      state.videoHomeSearchResultsData = payload;
+    },
+    SET_LIKE(state, payload) {
+      state.like = payload;
+    },
+    SET_CURRENT_VIDEO_DATA(state, payload) {
+      state.currentVideoData = payload;
+    },
   },
   actions: {
-    // 定义你的 actions
+    // async fetchVideoHomeData({ commit }, query) {
+    //   try {
+    //     const response = await getVideos(query);
+    //     commit('SET_VIDEO_HOME_DATA', response.data.videos);
+    //     console.log(response.data.videos);
+    //   } catch (error) {
+    //     console.error('Failed to fetch video home data:', error);
+    //   }
+    // },
+    // async fetchSearchResultsData({ commit }, query) {
+    //   try {
+    //     const response = await getVideos(query);
+    //     commit('SET_SEARCH_RESULTS_DATA', response.data.videos);
+    //   } catch (error) {
+    //     console.error('Failed to fetch search results:', error);
+    //   }
+    // },
+    setVideoHomeData({ commit }, data) {
+      commit("SET_VIDEO_HOME_DATA", data);
+    },
+    setSearchResultData({ commit }, data) {
+      commit("SET_SEARCH_RESULTS_DATA", data);
+    },
+    setLike({ commit }, data) {
+      commit("SET_LIKE", data);
+    },
+    setCurrentVideoData({ commit }, data) {
+      commit("SET_CURRENT_VIDEO_DATA", data);
+    },
   },
-  getters: {
-    // 定义你的 getters
-  }
 };
 
 // 默认导出模块对象

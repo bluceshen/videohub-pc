@@ -2,7 +2,7 @@
   <div class="grid-container">
 
     <div class="search-container">
-      <Search class="search"></Search>
+      <Search class="search" :searchType="'collection'"></Search>
 
     </div>
 
@@ -11,8 +11,8 @@
       <span class="title">默认收藏夹</span>
       <hr class="line">
       <div class="sub-grid-container">
-        <Video class="video" v-for="video in videos" :key="video.title" :title="video.title" :author="video.author"
-          :releaseTime="video.releaseTime" :videoUrl="video.videoUrl" :coverUrl="video.coverUrl"></Video>
+        <Video class="video" v-for="video in videos" :key="video.title" :title="video.title" :author="video.name"
+          :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
       </div>
     </div>
 
@@ -20,17 +20,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { onMounted, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import Video from '../items/Video.vue';
 import Search from '../items/Search.vue';
 
 const store = useStore(); // 直接访问 Vuex store
-const videos = ref(store.state.user.myCollectionData);
-// 当组件挂载时，从 API 获取视频数据
-// onMounted(() => {
-//   store.dispatch('fetchVideos');
-// });
+const originalVideos = computed(() => store.state.user.myCollectionData);
+const collectionLike = computed(() => store.state.user.collectionLike);
+
+const videos = computed(() => {
+  return originalVideos.value.filter(
+    video => video.title.toLowerCase().includes(collectionLike.value.toLowerCase()) ||
+      video.description.toLowerCase().includes(collectionLike.value.toLowerCase())
+  );
+});
+
+onMounted(() => {
+  // store.dispatch('user/fetchMyCollectionVideoData');
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -51,11 +59,11 @@ const videos = ref(store.state.user.myCollectionData);
   grid-row: 1;
 }
 
-.content-container{
-   background-color: var(--background-black2);
+.content-container {
+  background-color: var(--background-black2);
   width: 100%;
   height: 100%;
-  grid-row: 2; 
+  grid-row: 2;
 }
 
 .sub-grid-container {
@@ -97,17 +105,16 @@ const videos = ref(store.state.user.myCollectionData);
 
 .title {
   font-size: 40px;
-  font-style:initial;
+  font-style: initial;
   margin-left: 2%;
-  color:var(--text-white2);
+  color: var(--text-white2);
 }
 
-.line{
+.line {
   width: 98%;
-  margin-left:1%;
-  border:none;
+  margin-left: 1%;
+  border: none;
   height: 1px;
-  background-color:var(--text-white3);
+  background-color: var(--text-white3);
 }
-
 </style>

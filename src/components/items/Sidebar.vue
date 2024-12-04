@@ -15,8 +15,9 @@
 
             <el-menu-item index="/home/origin">
                 <div>
-                    <el-icon >
-                        <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                    <el-icon>
+                        <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                            viewBox="0 0 24 24">
                             <path fill="currentColor"
                                 d="M17.525 10.625q.35-.225.35-.625t-.35-.625L12.65 6.25q-.375-.25-.763-.038t-.387.663v6.25q0 .45.388.663t.762-.038zM8 18q-.825 0-1.412-.587T6 16V4q0-.825.588-1.412T8 2h12q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm-4 4q-.825 0-1.412-.587T2 20V7q0-.425.288-.712T3 6t.713.288T4 7v13h13q.425 0 .713.288T18 21t-.288.713T17 22z" />
                         </svg>
@@ -27,7 +28,8 @@
             <el-menu-item index="/myVideo">
                 <div>
                     <el-icon>
-                        <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                            viewBox="0 0 24 24">
                             <path fill="currentColor"
                                 d="M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.587 1.413T20 20zm0-5h16V6H4z" />
                         </svg>
@@ -38,7 +40,8 @@
             <el-menu-item index="/myCollection">
                 <div>
                     <el-icon>
-                        <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+                        <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                            viewBox="0 0 16 16">
                             <g fill="currentColor">
                                 <path
                                     d="M2 3a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 0-1h-11A.5.5 0 0 0 2 3m2-2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 0-1h-7A.5.5 0 0 0 4 1m2.765 5.576A.5.5 0 0 0 6 7v5a.5.5 0 0 0 .765.424l4-2.5a.5.5 0 0 0 0-.848z" />
@@ -54,7 +57,8 @@
             <el-menu-item index="/upload" class="upload">
                 <div>
                     <el-icon>
-                        <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+                        <svg class="router-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                            viewBox="0 0 24 24">
                             <path fill="currentColor"
                                 d="M4 22v-2h16v2zm5-4v-7H5l7-9l7 9h-4v7zm2-2h2V9h1.9L12 5.25L9.1 9H11zm1-7" />
                         </svg>
@@ -62,14 +66,13 @@
                     <span class="router-text">上传</span>
                 </div>
             </el-menu-item>
-            
+
             <div class="avatar">
-                <el-avatar  @click="handleAvatarClick" :size="80" :src="avatarSrc"
-                style="border: 1px solid black">
-                </el-avatar> 
-            <div class="status-dot"></div>
+                <el-avatar @click="handleAvatarClick" :size="80" :src="avatarSrc" style="border: 1px solid black">
+                </el-avatar>
+                <div class="status-dot"></div>
             </div>
-            
+
 
         </div>
     </el-menu>
@@ -84,7 +87,7 @@ const avatarSrc = require("@/assets/avatar.png");
 const handleAvatarClick = () => {
     router.push("/me/info");
 };
-const activeIdx = computed(()=>router.currentRoute.value.path);
+const activeIdx = computed(() => router.currentRoute.value.path);
 </script>
 
 <style scoped>
@@ -152,8 +155,9 @@ const activeIdx = computed(()=>router.currentRoute.value.path);
 
 /* 侧边栏高亮样式 */
 .el-menu-item.is-active {
-  background-color: var(--background-black3);
-  color: white; /* 高亮字体颜色 */
+    background-color: var(--background-black3);
+    color: white;
+    /* 高亮字体颜色 */
 }
 
 .el-menu-item {
@@ -163,7 +167,7 @@ const activeIdx = computed(()=>router.currentRoute.value.path);
     transition: transform 0.3s ease;
 }
 
-.el-menu{
+.el-menu {
     border-color: var(--grey2);
     background-color: var(--background-black1);
 }
@@ -174,7 +178,7 @@ const activeIdx = computed(()=>router.currentRoute.value.path);
 
 .logo-text {
 
-    color:var(--red1);
+    color: var(--red1);
     grid-column: 3;
 }
 
@@ -189,10 +193,11 @@ const activeIdx = computed(()=>router.currentRoute.value.path);
     border-radius: 50%;
 }
 
-.router-text{
+.router-text {
     color: var(--text-white1);
 }
-.router-icon{
+
+.router-icon {
     color: var(--text-white2);
 }
 </style>

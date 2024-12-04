@@ -11,15 +11,13 @@
                 </div>
             </div>
             <div class="return_button">
-                <el-button color="#000" :dark="isDark" plain>返回</el-button>
+                <el-button color="#000" :dark="isDark" plain @click="lastPage">返回</el-button>
             </div>
         </div>
         <!-- 推荐列表 -->
         <div class="video-list">
-            <VideoSmallCard class="video-card" v-for="item in videos" :key="item.title" style="height: 100px;"
-                :videoTitle="item.title" :videoUrl="item.videoUrl" :author="item.author" :playNum="555"
-                :commentNum="555" :coverUrl="item.coverUrl">
-            </VideoSmallCard>
+            <VideoSmallCard class="video" v-for="video in videos" :key="video.title" :title="video.title" :author="video.name"
+            :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path" :playNum="video.view_count" :commentNum="video.comment_count"></VideoSmallCard>
         </div>
     </div>
 </template>
@@ -27,17 +25,25 @@
 <script setup>
 import VideoSmallCard from './VideoSmallCard.vue';
 import { useStore } from 'vuex';
-import { ref } from 'vue';
+import {computed} from 'vue';
 
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
-const videos = ref(store.state.home.videoHomeData); // 从 store 中获取 videoHomeData 数组
+const videos = computed(()=>store.state.home.videoHomeData); // 从 store 中获取 videoHomeData 数组
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
 
 const props = defineProps({
     userImgUrl: String,
     upName: String,
     videoList: Array,
 })
+
+function lastPage(){
+    router.go(-1);
+}
 
 </script>
 

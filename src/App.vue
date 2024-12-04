@@ -12,19 +12,6 @@
 // 导入侧边栏组件
 import Auth from "./components/items/Auth.vue";
 import Sidebar from "./components/items/Sidebar.vue";
-
-import { useStore } from 'vuex';
-
-const store = useStore();
-
-function openAuth() {
-  store.dispatch('open');
-}
-
-function closeAuth() {
-  store.dispatch('close');
-}
-
 </script>
 
 <style>

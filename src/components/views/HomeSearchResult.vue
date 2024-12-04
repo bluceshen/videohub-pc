@@ -1,23 +1,43 @@
 <template>
   <div class="sub-grid-container">
     <!-- 使用 v-for 渲染 Video 组件列表 -->
-    <Video v-for="video in videos" :key="video.title" :title="video.title" :author="video.author"
-      :releaseTime="video.releaseTime" :videoUrl="video.videoUrl" :coverUrl="video.coverUrl"></Video>
+    <Video class="video" v-for="video in videos" :key="video.title" :title="video.title" :author="video.name"
+      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import {onMounted,computed,watch} from 'vue';
 import { useStore } from 'vuex';
 import Video from '../items/Video.vue';
 
-const store = useStore(); // 直接访问 Vuex store
-const videos = ref(store.state.home.searchResultsData); // 从 store 中获取 searchResultsData 数组
+const store = useStore();
 
-// 当组件挂载时，从 API 获取视频数据
-// onMounted(() => {
-//   // store.dispatch('fetchVideos');
-// });
+// 从 store 中获取 videoHomeData 数组
+const videos = computed(() => store.state.home.videoHomeSearchResultsData);
+
+// 观察 like 的变化
+watch(
+  () => store.state.home.like, 
+  (newLike, oldLike) => {
+    // 当 like 发生变化时，发送请求
+    const params = {
+      status: 0,
+      like: newLike,
+    };
+    store.dispatch('home/fetchSearchResultsData', params);
+  },
+  { immediate: true } // {immediate: true} 表示在 watch 创建时立即执行一次
+);
+
+// 如果您还需要在组件挂载时立即执行一次请求，可以保留 onMounted 钩子
+onMounted(() => {
+  const params = {
+    status: 0,
+    like: store.state.home.like,
+  };
+  store.dispatch('home/fetchSearchResultsData', params);
+});
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

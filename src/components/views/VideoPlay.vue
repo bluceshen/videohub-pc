@@ -2,16 +2,16 @@
   <div class="VideoPlay-Win">
       <div class="VideoPlay">
         <VideoLeftPlayer 
-          :releaseTime="video.releaseTime" 
+          :releaseTime="video.published_at" 
           :videoTitle="video.title"
-          :videoUrl="video.videoUrl"
-          :videoDesc="video.videoDesc"
+          :videoUrl="video.video_path"
+          :videoDesc="video.description"
           >
           <Comment></Comment>
         </VideoLeftPlayer>
       </div>
       <div class="VideoList">
-        <VideoRightList :upName="video.author"></VideoRightList>
+        <VideoRightList :upName="video.name"></VideoRightList>
       </div>
   </div>
 </template>
@@ -19,15 +19,13 @@
 <script setup>
 import VideoLeftPlayer from "../items/VideoLeftPlayer.vue"
 import VideoRightList from "../items/VideoRightList.vue"
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import Comment from '../items/Comment.vue';
 
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
-const video = ref(store.state.home.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
-
-
+const video = computed(()=>store.state.home.currentVideoData); // 从 store 中获取 currentVideoData
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

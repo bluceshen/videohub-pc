@@ -64,7 +64,6 @@ import { useStore } from 'vuex';
 
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
-const video = ref(store.state.home.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
 
 // 定义接收的props
 const props = defineProps({

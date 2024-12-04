@@ -19,7 +19,7 @@
           </svg>
           <el-input class="password-input" v-model="login_password" type="password" placeholder="密码"></el-input>
 
-          <el-button class="login-button">登录</el-button>
+          <el-button class="login-button" @click="login">登录</el-button>
           <el-button class="register-button" @click="registerPage">注册</el-button>
         </div>
         <div v-else class="register-grid-container">
@@ -41,10 +41,10 @@
               d="M12 0c-.918 0-1.833.12-2.72.355L4.07 1.748a2.64 2.64 0 0 0-1.96 2.547v9.115a7.91 7.91 0 0 0 3.552 6.606l5.697 3.765a1.32 1.32 0 0 0 1.467-.008l5.572-3.752a7.93 7.93 0 0 0 3.493-6.57V4.295a2.64 2.64 0 0 0-1.961-2.547L14.72.355A10.6 10.6 0 0 0 12 0M7.383 5.4h9.228c.726 0 1.32.594 1.32 1.32c0 .734-.587 1.32-1.32 1.32H7.383c-.727 0-1.32-.593-1.32-1.32c0-.726.593-1.32 1.32-1.32M7.38 9.357h3.299c.727 0 1.32.595 1.32 1.32a1.32 1.32 0 0 1-1.318 1.32H7.38c-.726 0-1.32-.592-1.32-1.32c0-.725.594-1.32 1.32-1.32m0 3.96c.727 0 1.32.593 1.32 1.32s-.586 1.318-1.32 1.318c-.726 0-1.32-.592-1.32-1.318s.594-1.32 1.32-1.32" />
           </svg>
           <el-input class="code-input" v-model="register_code" placeholder="验证码"></el-input>
-          <el-button class="code-button">发送验证码</el-button>
+          <el-button class="code-button" @click="getCode">发送验证码</el-button>
 
           <el-button class="back-login-button" @click="loginPage">返回登录</el-button>
-          <el-button class="comfirm-register-button" @click="registerPage">确认注册</el-button>
+          <el-button class="comfirm-register-button" @click="register">确认注册</el-button>
         </div>
       </div>
     </div>
@@ -53,11 +53,20 @@
 
 <script setup>
 import { useStore } from 'vuex';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { postUsersEmail, postUsers, postUsersToken } from "@/api/userApi";
+import { useRouter } from "vue-router";
+import { setAccessToken, setRefreshToken } from "@/api/auth";
+import CryptoJS from 'crypto-js';
+import * as validator from 'validator';
+
+
+const router = useRouter();
+
 
 const showLogin = ref(true);
-const messageLogin = ref("这里是登录消息展示");
-const messageRegister = ref("这里是注册消息展示");
+const messageLogin = ref("");
+const messageRegister = ref("");
 const store = useStore();
 
 const login_username = ref("");
@@ -71,18 +80,110 @@ const register_code = ref("");
 
 const showAuth = computed(() => store.state.user.showAuth);
 
+
 function closeAuth() {
   setTimeout(() => {
     store.dispatch('user/closeAuth');
-  }, 100);
+    router.push('/home/origin');  
+    messageLogin.value = "";
+    login_username.value = "";
+    login_password.value = "";
+    messageRegister.value = "";
+    register_username.value = "";
+    register_password.value = "";
+    register_password2.value = "";
+  }, 50);
 }
+
 function registerPage() {
+  messageLogin.value = "";
+  login_username.value = "";
+  login_password.value = "";
   showLogin.value = false;
 }
 
 function loginPage() {
+  messageRegister.value = "";
+  register_username.value = "";
+  register_password.value = "";
+  register_password2.value = "";
   showLogin.value = true;
 }
+
+//不需要token，所以不用try-catch来捕捉refresh_token失效的情况
+async function getCode() {
+  if (!validator.isEmail(register_username.value)) {
+    messageRegister.value = '邮箱格式非法';
+  } else {
+    const email = {
+      email: register_username.value,
+    };
+    const response = await postUsersEmail(email);
+    if (response.data.code === 200) {
+      messageRegister.value = "验证码发送成功";
+      console.log('验证码发送成功');
+    } else {
+      messageRegister.value = response.data.error;
+      console.log("验证码发送失败");
+    }
+  }
+}
+
+//不需要token，所以不用try-catch来捕捉refresh_token失效的情况
+async function login() {
+  if (!validator.isEmail(login_username.value)) {
+    messageLogin.value = '邮箱格式非法';
+  } else if(login_password.value === "" || login_password.value.trim() === "") {
+    messageLogin.value = '密码不能为空';
+  } else if(login_password.value.length<6||login_password.value.length>18){
+    messageLogin.value = '密码长度应该在6位到18位之间';
+  }else{
+    const userData = {
+      email: login_username.value,
+      password: CryptoJS.SHA256(login_password.value).toString(),//这里要加密一遍
+    };
+    const response = await postUsersToken(userData);
+    if (response.data.code == 200) {
+      messageLogin.value = "登录成功！";
+      setAccessToken(response.data.data.access_token);
+      setRefreshToken(response.data.data.refresh_token);
+      router.push("/home/origin");
+      setTimeout(() => {
+        store.dispatch('user/closeAuth');
+      }, 1000);
+      console.log("登录成功");
+    } else {
+      console.log(response.data.error);
+    }
+  }
+
+}
+
+//不需要token，所以不用try-catch来捕捉refresh_token失效的情况
+async function register() {
+  if (!validator.isEmail(register_username.value)) {
+    messageRegister.value = '邮箱格式非法';
+  } else if (register_password.value.length < 6 || register_password.value.length > 18) {
+    messageRegister.value = '密码长度应该在6位到18位之间';
+  } else if (register_password.value !== register_password2.value) {
+    messageRegister.value = '两次输入的密码不一致';
+  } else if (register_code.value === "" || register_code.value.trim() === "") {
+    messageRegister.value = '验证码不能为空';
+  } else {
+    const userData = {
+      email: register_username.value,
+      password: CryptoJS.SHA256(register_password.value).toString(),//这里要加密一遍
+      code: register_code.value,
+    }
+    const response = await postUsers(userData);
+    if (response.data.code === 200) {
+      messageRegister.value = "注册成功！";
+      console.log('注册成功');
+    } else {
+      console.log('注册失败');
+    }
+  }
+} 
 </script>
 
 <style scoped>
@@ -207,7 +308,7 @@ function loginPage() {
   margin-left: 20px;
 }
 
-.code-svg{
+.code-svg {
   grid-row: 6;
   grid-column: 1;
   margin-left: 20px;
@@ -242,10 +343,10 @@ function loginPage() {
   grid-column: 2/4;
   width: 210px;
   height: 40px;
-  left:-35px;
+  left: -35px;
 }
 
-.code-button{
+.code-button {
   grid-row: 6;
   grid-column: 3/5;
   width: 100px;

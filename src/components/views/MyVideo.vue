@@ -5,17 +5,17 @@
     <hr class="line">
     <div class="sub-grid-container">
       <!-- 使用 v-for 渲染审核通过的视频组件列表 -->
-      <Video v-for="video in approvedVideos" :key="video.title" :title="video.title" :author="video.author"
-        :releaseTime="video.releaseTime" :videoUrl="video.videoUrl" :coverUrl="video.coverUrl"></Video>
-    </div>
+        <Video class="video" v-for="video in approvedVideos" :key="video.title" :title="video.title" :author="video.name"
+      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
+      </div>
     <br>
 
     <span class="title">待审核</span>
     <hr class="line">
     <div class="sub-grid-container">
       <!-- 使用 v-for 渲染待审核的视频组件列表 -->
-      <Video v-for="video in pendingVideos" :key="video.title" :title="video.title" :author="video.author"
-        :releaseTime="video.releaseTime" :videoUrl="video.videoUrl" :coverUrl="video.coverUrl"></Video>
+      <Video class="video" v-for="video in pendingVideos" :key="video.title" :title="video.title" :author="video.name"
+      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
     </div>
     <br>
 
@@ -23,8 +23,8 @@
     <hr class="line">
     <div class="sub-grid-container">
       <!-- 使用 v-for 渲染审核未通过的视频组件列表 -->
-      <Video v-for="video in rejectedVideos" :key="video.title" :title="video.title" :author="video.author"
-        :releaseTime="video.releaseTime" :videoUrl="video.videoUrl" :coverUrl="video.coverUrl"></Video>
+      <Video class="video" v-for="video in rejectedVideos" :key="video.title" :title="video.title" :author="video.name"
+      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
     </div>
     <br>
 
@@ -32,25 +32,30 @@
     <hr class="line">
     <div class="sub-grid-container">
       <!-- 使用 v-for 渲染被封禁的视频组件列表 -->
-      <Video v-for="video in bannedVideos" :key="video.title" :title="video.title" :author="video.author"
-        :releaseTime="video.releaseTime" :videoUrl="video.videoUrl" :coverUrl="video.coverUrl"></Video>
+      <Video class="video" v-for="video in bannedVideos" :key="video.title" :title="video.title" :author="video.name"
+      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { computed,onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Video from '../items/Video.vue';
 
 const store = useStore(); // 直接访问 Vuex store
-const videos = ref(store.state.user.myVideoData); // 从 store 中获取 myVideoData 数组
+const videos = computed(()=>store.state.user.myVideoData); // 从 store 中获取 myVideoData 数组
 
 // 创建计算属性来分离不同状态的视频
-const approvedVideos = computed(() => videos.value.filter(video => video.status === 'approved'));
-const pendingVideos = computed(() => videos.value.filter(video => video.status === 'pending'));
-const rejectedVideos = computed(() => videos.value.filter(video => video.status === 'rejected'));
-const bannedVideos = computed(() => videos.value.filter(video => video.status === 'banned'));
+const approvedVideos = computed(() => videos.value.filter(video => video.status === 0));
+const pendingVideos = computed(() => videos.value.filter(video => video.status === 1));
+const rejectedVideos = computed(() => videos.value.filter(video => video.status === 2));
+const bannedVideos = computed(() => videos.value.filter(video => video.status === 3));
+
+onMounted(() => {
+  // store.dispatch('user/fetchMyVideoData');
+});
+
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

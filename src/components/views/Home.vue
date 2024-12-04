@@ -2,7 +2,7 @@
   <div class="grid-container">
 
     <div class="search-container">
-          <Search class="search"></Search>
+          <Search class="search" :searchType="'home'"></Search>
     </div>
     <div class="content-container">
       <router-view></router-view>
@@ -14,8 +14,6 @@
 <script setup>
 import Search from "../items/Search.vue";
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 /* scoped表示这里的css样式不会泄露到其他组件 */
 .grid-container {
@@ -26,7 +24,6 @@ import Search from "../items/Search.vue";
   grid-template-rows: 1fr 5fr;
   overflow: hidden;
 }
-
 .search-container{
   width: 100%;
   height: 100%;
