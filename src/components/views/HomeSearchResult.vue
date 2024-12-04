@@ -10,6 +10,7 @@
 import {onMounted,computed,watch} from 'vue';
 import { useStore } from 'vuex';
 import Video from '../items/Video.vue';
+import { getVideos } from "@/api/userApi";
 
 const store = useStore();
 
@@ -19,13 +20,19 @@ const videos = computed(() => store.state.home.videoHomeSearchResultsData);
 // 观察 like 的变化
 watch(
   () => store.state.home.like, 
-  (newLike, oldLike) => {
+  async (newLike, oldLike) => {
     // 当 like 发生变化时，发送请求
     const params = {
       status: 0,
       like: newLike,
     };
-    store.dispatch('home/fetchSearchResultsData', params);
+    const response = await getVideos(params);
+    if (response.data.code === 200) {
+      store.dispatch('home/setSearchResultData', response.data.data.videos);
+      console.log(response.data.data); 
+    } else {
+      console.log('视频获取失败');
+    }
   },
   { immediate: true } // {immediate: true} 表示在 watch 创建时立即执行一次
 );

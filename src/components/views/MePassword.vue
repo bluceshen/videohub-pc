@@ -33,6 +33,7 @@ import { computed, ref } from "vue";
 import { useStore } from 'vuex';
 import * as validator from 'validator';
 import { postUsersEmail, putUsersPassword } from "@/api/userApi";
+import CryptoJS from 'crypto-js';
 const input_old_pwd = ref("");
 const input_new_pwd = ref("");
 const input_repeat_pwd = ref("");
@@ -40,7 +41,7 @@ const input_code = ref("");
 const message = ref("");
 
 const store = useStore();
-
+// CryptoJS.SHA256(register_password.value).toString()
 const stored_email = computed(() => store.state.user.email);
 
 async function changePwd() {
@@ -56,8 +57,8 @@ async function changePwd() {
         message.value = '验证码不能为空';
     } else {
         const passwordData = {
-            password: input_old_pwd.value,
-            new_password: input_new_pwd.value,
+            password: CryptoJS.SHA256(input_old_pwd.value).toString(),
+            new_password: CryptoJS.SHA256(input_new_pwd.value).toString(),
             code: input_code.value
         }
         const response = await putUsersPassword(passwordData);
@@ -210,6 +211,7 @@ async function getCode() {
 .message {
     grid-row: 2;
     grid-column: 2;
+    font-size : larger;
     /* width: 1px; */
     color: var(--red1);
 }

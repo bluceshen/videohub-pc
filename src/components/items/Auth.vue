@@ -84,7 +84,7 @@ const showAuth = computed(() => store.state.user.showAuth);
 function closeAuth() {
   setTimeout(() => {
     store.dispatch('user/closeAuth');
-    router.push('/home/origin');  
+    router.push('/home/origin');
     messageLogin.value = "";
     login_username.value = "";
     login_password.value = "";
@@ -133,11 +133,11 @@ async function getCode() {
 async function login() {
   if (!validator.isEmail(login_username.value)) {
     messageLogin.value = '邮箱格式非法';
-  } else if(login_password.value === "" || login_password.value.trim() === "") {
+  } else if (login_password.value === "" || login_password.value.trim() === "") {
     messageLogin.value = '密码不能为空';
-  } else if(login_password.value.length<6||login_password.value.length>18){
-    messageLogin.value = '密码长度应该在6位到18位之间';
-  }else{
+  } else if (login_password.value.length < 6 || login_password.value.length > 18) {
+    messageLogin.value = '密码长度应在6位到18位之间';
+  } else {
     const userData = {
       email: login_username.value,
       password: CryptoJS.SHA256(login_password.value).toString(),//这里要加密一遍
@@ -150,13 +150,20 @@ async function login() {
       router.push("/home/origin");
       setTimeout(() => {
         store.dispatch('user/closeAuth');
+        messageLogin.value = "";
+        login_username.value = "";
+        login_password.value = "";
+        messageRegister.value = "";
+        register_username.value = "";
+        register_password.value = "";
+        register_password2.value = "";
       }, 1000);
+
       console.log("登录成功");
     } else {
       console.log(response.data.error);
     }
   }
-
 }
 
 //不需要token，所以不用try-catch来捕捉refresh_token失效的情况
@@ -164,7 +171,7 @@ async function register() {
   if (!validator.isEmail(register_username.value)) {
     messageRegister.value = '邮箱格式非法';
   } else if (register_password.value.length < 6 || register_password.value.length > 18) {
-    messageRegister.value = '密码长度应该在6位到18位之间';
+    messageRegister.value = '密码长度应在6位到18位之间';
   } else if (register_password.value !== register_password2.value) {
     messageRegister.value = '两次输入的密码不一致';
   } else if (register_code.value === "" || register_code.value.trim() === "") {
@@ -175,13 +182,19 @@ async function register() {
       password: CryptoJS.SHA256(register_password.value).toString(),//这里要加密一遍
       code: register_code.value,
     }
-    const response = await postUsers(userData);
-    if (response.data.code === 200) {
-      messageRegister.value = "注册成功！";
-      console.log('注册成功');
-    } else {
-      console.log('注册失败');
+    try {
+      const response = await postUsers(userData);
+      if (response.data.code === 200) {
+        messageRegister.value = "注册成功！";
+        console.log('注册成功');
+      } else {
+        messageRegister.value = response.data.error;
+        console.log('注册失败');
+      }
+    } catch (error) {
+      messageRegister.value = '网络错误,请稍后重试';
     }
+
   }
 } 
 </script>

@@ -33,7 +33,7 @@ import { postUsersEmail, putUsers } from "@/api/userApi";
 const store = useStore();
 const name = computed(() => store.state.user.name);
 const email = computed(() => store.state.user.email);
-const message = ref("xxxx");
+const message = ref("");
 const input_name = ref("");
 const input_email = ref("");
 const input_code = ref("");
@@ -265,7 +265,8 @@ onMounted(async () => {
 .message {
     grid-row: 2;
     grid-column: 2;
+    font-size : larger;
     /* width: 1px; */
-    color: var(--text-white1);
+    color: var(--red1);
 }
 </style>

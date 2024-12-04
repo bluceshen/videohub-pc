@@ -24,6 +24,7 @@ import { onMounted, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import Video from '../items/Video.vue';
 import Search from '../items/Search.vue';
+import { getUsersFavorites } from "@/api/userApi";
 
 const store = useStore(); // 直接访问 Vuex store
 const originalVideos = computed(() => store.state.user.myCollectionData);
@@ -36,8 +37,21 @@ const videos = computed(() => {
   );
 });
 
-onMounted(() => {
-  // store.dispatch('user/fetchMyCollectionVideoData');
+onMounted(async() => {
+  try {
+    const response = await getUsersFavorites();
+    if (response.data.code === 200) {
+      store.dispatch('home/setMyCollection', response.data.data);
+      console.log(response.data.data); 
+    } else {
+      console.log('收藏获取失败');
+    }
+  } catch (error) {
+    if (error.message === 'AUTHENTICATION_FAILED') {
+      store.dispatch('user/openAuth');
+    }
+    console.log(error.message);
+  }  
 });
 </script>
 

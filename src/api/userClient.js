@@ -4,7 +4,8 @@ import store from "@/vuex/root";
 
 // 创建一个Axios实例
 const userClient = axios.create({
-  baseURL: "http://127.0.0.1:4523/m1/3020684-0-default",
+  // baseURL: "http://127.0.0.1:4523/m1/3020684-0-default",
+  baseURL: "http://192.168.39.3:8082",
 });
 
 const postUsersAccessToken = () => {
@@ -31,7 +32,7 @@ async function handleTokenRefresh(config) {
   if (response != null && response.data.code === 200) {
     const access_token = response.data.data.access_token;
     setAccessToken(access_token);
-    config.headers.Authorization = `Bearer ${access_token}`;
+    config.headers.Authorization = `${access_token}`;
     return userClient(config);
   } else {
     //这里刷新令牌的API对应的code为400/其他,说明刷新令牌也失效了，跳出循环了，不会一直循环重试，这个错误需要在vue组件调用api时捕获
@@ -43,7 +44,7 @@ async function handleTokenRefresh(config) {
 const setHeaderToken = (isNeedToken) => {
   const accessToken = isNeedToken ? getAccessToken() : null;
   if (isNeedToken) {
-    userClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    userClient.defaults.headers.common.Authorization = `${accessToken}`;
   }
 };
 

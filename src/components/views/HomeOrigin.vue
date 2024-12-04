@@ -22,6 +22,7 @@ const store = useStore(); // 直接访问 Vuex store
 const videos = computed(() => store.state.home.videoHomeData);
 
 
+
 // 当组件挂载时，从 API 获取视频数据
 onMounted(async () => {
   const params = {
@@ -32,7 +33,9 @@ onMounted(async () => {
   try {
     const response = await getVideos(params);
     if (response.data.code === 200) {
-      store.dispatch('home/setVideoHomeData', response.data.data);
+      store.dispatch('home/setVideoHomeData', response.data.data.videos);
+      // console.log(response.data.data); 
+      // console.log(videos);
     } else {
       console.log('视频获取失败');
     }

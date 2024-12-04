@@ -53,17 +53,17 @@ export const postUsersToken = (jsonData) => {
 
 //获取用户的收藏视频
 export const getUsersFavorites = () => {
-  return myGet("/users/favorites", {}, true);
+  return myGet("/users/collections", {}, true);
 };
 
 //收藏视频
 export const postUsersFavorites = (jsonData) => {
-  return myPost("/users/favorites", jsonData, true);
+  return myPost("/users/collections", jsonData, true);
 };
 
 //取消收藏视频
 export const deleteUsersFavorites = (jsonData) => {
-  return myDelete("/users/favorites", jsonData, true);
+  return myDelete("/users/collections", jsonData, true);
 };
 
 ////////////////////////////////////////////////////////////
@@ -142,7 +142,7 @@ export const postVideosComplete = (formData) => {
 
 //发送验证码
 export const postUsersEmail = (jsonData) => {
-  return myPost("/users/email", jsonData,false);
+  return myPost("/api/email", jsonData,false);
 };
 
 ////////////////////////////////////////////////////////////

@@ -13,6 +13,8 @@ const homeStore = {
     // 定义你的 mutations
     SET_VIDEO_HOME_DATA(state, payload) {
       state.videoHomeData = payload;
+      console.log("payload");
+      console.log(payload);
     },
     SET_SEARCH_RESULTS_DATA(state, payload) {
       state.videoHomeSearchResultsData = payload;
@@ -43,6 +45,8 @@ const homeStore = {
     //   }
     // },
     setVideoHomeData({ commit }, data) {
+      console.log("data");
+      console.log(data);
       commit("SET_VIDEO_HOME_DATA", data);
     },
     setSearchResultData({ commit }, data) {

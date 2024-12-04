@@ -42,6 +42,7 @@
 import { computed,onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Video from '../items/Video.vue';
+import { getUsersVideos } from "@/api/userApi";
 
 const store = useStore(); // 直接访问 Vuex store
 const videos = computed(()=>store.state.user.myVideoData); // 从 store 中获取 myVideoData 数组
@@ -52,10 +53,22 @@ const pendingVideos = computed(() => videos.value.filter(video => video.status =
 const rejectedVideos = computed(() => videos.value.filter(video => video.status === 2));
 const bannedVideos = computed(() => videos.value.filter(video => video.status === 3));
 
-onMounted(() => {
-  // store.dispatch('user/fetchMyVideoData');
+onMounted(async() => {
+  try {
+    const response = await getUsersVideos();
+    if (response.data.code === 200) {
+      store.dispatch('user/setMyVideo', response.data.data);
+      console.log(response.data.data); 
+    } else {
+      console.log('我的发布视频获取失败');
+    }
+  } catch (error) {
+    if (error.message === 'AUTHENTICATION_FAILED') {
+      store.dispatch('user/openAuth');
+    }
+    console.log(error.message);
+  }  
 });
-
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

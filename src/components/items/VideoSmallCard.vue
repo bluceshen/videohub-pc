@@ -156,7 +156,7 @@ const handleMouseLeave = debounce(() => {
     color: var(--text-white2);
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
+    /* -webkit-line-clamp: 2; */
     overflow: hidden;
     word-break: break-all;
     line-height: 20px;
