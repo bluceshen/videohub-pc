@@ -1,13 +1,12 @@
 <template>
   <div class="upload">
-    <Upload />
-  </div>
+    <VideoUpload />
 
+  </div>
 </template>
 
 <script setup>
-import Upload from '../items/VideoUpLoad.vue';
-
+import VideoUpload from '../items/VideoUpLoad.vue';
 
 </script>
 

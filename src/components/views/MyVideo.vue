@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Video from '../items/Video.vue';
 
@@ -47,10 +47,11 @@ const store = useStore(); // 直接访问 Vuex store
 const videos = ref(store.state.user.myVideoData); // 从 store 中获取 myVideoData 数组
 
 // 创建计算属性来分离不同状态的视频
-const approvedVideos = computed(() => videos.value.filter(video => video.status === 'approved'));
-const pendingVideos = computed(() => videos.value.filter(video => video.status === 'pending'));
-const rejectedVideos = computed(() => videos.value.filter(video => video.status === 'rejected'));
-const bannedVideos = computed(() => videos.value.filter(video => video.status === 'banned'));
+const approvedVideos = computed(() => videos.value.filter(video => video.status === "approved"));
+const pendingVideos = computed(() => videos.value.filter(video => video.status === "pending"));
+const rejectedVideos = computed(() => videos.value.filter(video => video.status === "rejected"));
+const bannedVideos = computed(() => videos.value.filter(video => video.status === "banned"));
+
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

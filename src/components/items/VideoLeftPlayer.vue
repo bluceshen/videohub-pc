@@ -4,7 +4,7 @@
         <div class="viewbox_info">
             <div class="viewbox_report">
                 <div class="video-title">
-                    <span :title="videoTitle" >{{ videoTitle }}</span>
+                    <span :title="videoTitle">{{ videoTitle }}</span>
                 </div>
             </div>
             <br>
@@ -15,26 +15,26 @@
         <br>
         <!-- 视频播放器 -->
         <div class="video-wrap">
-            <video style="width: 100%; height:100%; object-fit: fill;" controls :src="videoUrl">
+            <video id="videoPlayer" style="width: 100%; height:100%; object-fit: fill;" controls :src="videoUrl">
                 <source :src="videoUrl" type="video/mp4" />
                 <p>视频加载失败</p>
             </video>
         </div>
         <!-- 底部工具栏 -->
         <div class="video-toolbar-container">
-            <div class="video-like" title="点赞" 
-            :class="{ clicked_like: like_checked }" 
-            @click="clicked_like">
+            <div class="video-like" title="点赞" :class="{ clicked_like: like_checked }" @click="clicked_like">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2M20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2"/>
+                    <path fill="currentColor"
+                        d="M4 21h1V8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2M20 8h-7l1.122-3.368A2 2 0 0 0 12.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 0 0-2-2" />
                 </svg>
             </div>
-            <div class="video-collect" title="收藏" 
-            :class="{ clicked_collect: collect_checked }" 
-            @click="clicked_collect">
+            <div class="video-collect" title="收藏" :class="{ clicked_collect: collect_checked }"
+                @click="clicked_collect">
                 <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 36 36">
-                    <path fill="currentColor" d="M34 16.78a2.22 2.22 0 0 0-1.29-4l-9-.34a.23.23 0 0 1-.2-.15l-3.11-8.4a2.22 2.22 0 0 0-4.17 0l-3.1 8.43a.23.23 0 0 1-.2.15l-9 .34a2.22 2.22 0 0 0-1.29 4l7.06 5.55a.23.23 0 0 1 .08.24l-2.43 8.61a2.22 2.22 0 0 0 3.38 2.45l7.46-5a.22.22 0 0 1 .25 0l7.46 5a2.2 2.2 0 0 0 2.55 0a2.2 2.2 0 0 0 .83-2.4l-2.45-8.64a.22.22 0 0 1 .08-.24Z" class="clr-i-solid clr-i-solid-path-1"/>
-                    <path fill="none" d="M0 0h36v36H0z"/>
+                    <path fill="currentColor"
+                        d="M34 16.78a2.22 2.22 0 0 0-1.29-4l-9-.34a.23.23 0 0 1-.2-.15l-3.11-8.4a2.22 2.22 0 0 0-4.17 0l-3.1 8.43a.23.23 0 0 1-.2.15l-9 .34a2.22 2.22 0 0 0-1.29 4l7.06 5.55a.23.23 0 0 1 .08.24l-2.43 8.61a2.22 2.22 0 0 0 3.38 2.45l7.46-5a.22.22 0 0 1 .25 0l7.46 5a2.2 2.2 0 0 0 2.55 0a2.2 2.2 0 0 0 .83-2.4l-2.45-8.64a.22.22 0 0 1 .08-.24Z"
+                        class="clr-i-solid clr-i-solid-path-1" />
+                    <path fill="none" d="M0 0h36v36H0z" />
                 </svg>
             </div>
         </div>
@@ -42,7 +42,7 @@
         <div class="video-desc-container">
             <div class="video-desc-info" ref="desc_info">
                 <p ref="desc_text">
-                    {{videoDesc}}
+                    {{ videoDesc }}
                 </p>
             </div>
             <button v-if="showOk" ref="toggleButton" class="toggle-button" @click="handlerClick">更多</button>
@@ -52,19 +52,14 @@
             <div class="video-comment-info">
                 <slot></slot>
             </div>
-            
+
         </div>
     </div>
 
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
-import { useStore } from 'vuex';
-
-/* 切换为videoList */
-const store = useStore(); // 直接访问 Vuex store
-const video = ref(store.state.home.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
+import { onMounted, ref, watch } from 'vue'
 
 // 定义接收的props
 const props = defineProps({
@@ -73,6 +68,7 @@ const props = defineProps({
     videoUrl: String,
     videoDesc: String
 });
+
 
 /* 控制 视频简介相关的展开/关闭按钮  */
 const showOk = ref(false);
@@ -92,8 +88,8 @@ function clicked_like(event) {
 }
 
 // 判断是否需要显示展开/关闭按钮
-function checkDesc(){
-    if(desc_text.value) {
+function checkDesc() {
+    if (desc_text.value) {
         const textHeight = desc_text.value.scrollHeight;
         if (textHeight > 80) {
             showOk.value = true;
@@ -101,9 +97,6 @@ function checkDesc(){
     }
 }
 
-onMounted(() => {
-    checkDesc();
-});
 function handlerClick() {
     if (desc_info.value && toggleButton.value) {
         const currentMaxHeight = desc_info.value.style.maxHeight;
@@ -116,6 +109,44 @@ function handlerClick() {
         }
     }
 }
+function removeVideoSrc(){
+    const videoPlayer = document.getElementById("videoPlayer");
+    videoPlayer.removeAttribute('src');
+    while (videoPlayer.firstChild) {
+        videoPlayer.removeChild(videoPlayer.firstChild);
+    }
+}
+
+function addVideoSrc(newValue) {
+    const videoPlayer = document.getElementById("videoPlayer");
+    if (videoPlayer) {
+        // 设置新的视频源
+        videoPlayer.setAttribute('src', newValue);
+        // 重新加载视频以应用新的源
+        videoPlayer.load();
+    } else {
+        console.error('Video player element not found');
+    }
+}
+
+watch(props.videoUrl, (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        // 如果新值与旧值不同，则更新视频源
+        addVideoSrc(newValue);
+    }
+})
+
+onMounted(() => {
+    // 检查描述信息
+    checkDesc();
+    // 移除视频源（如果有的话）
+    removeVideoSrc();
+    // 如果有初始视频 URL，则添加之
+    if (props.videoUrl) {
+        addVideoSrc(props.videoUrl);
+    }
+});
+
 
 </script>
 
@@ -125,12 +156,15 @@ function handlerClick() {
     0% {
         transform: translateY(0) scale(1);
     }
+
     25% {
         transform: translateY(-10px) scale(1.5);
     }
-    75%{
+
+    75% {
         transform: translateY(-5px) scale(2);
     }
+
     100% {
         transform: translateY(0) scale(1);
     }
@@ -151,7 +185,7 @@ function handlerClick() {
 .viewbox_info {
     position: relative;
     height: 80px;
-    left:10px;
+    left: 10px;
     box-sizing: border-box;
     /* padding-top: 22px; */
 }
@@ -198,18 +232,20 @@ function handlerClick() {
     color: rgb(206, 207, 208);
 }
 
-.video-like, .video-collect {
-    margin-left: 20px; /* 在两个图标之间添加10px的间隔 */
+.video-like,
+.video-collect {
+    margin-left: 20px;
+    /* 在两个图标之间添加10px的间隔 */
 }
 
-.video-toolbar-container .video-like:hover{
+.video-toolbar-container .video-like:hover {
     transform: scale(1.1);
     cursor: pointer;
     transition: transform 0.3s ease;
     transition: color 0.3s ease;
 }
 
-.video-toolbar-container .video-collect:hover{
+.video-toolbar-container .video-collect:hover {
     transform: scale(1.1);
     cursor: pointer;
     transition: transform 0.3s ease;
@@ -232,7 +268,7 @@ function handlerClick() {
 }
 
 .video-desc-info {
-    margin-left:10px;
+    margin-left: 10px;
     min-height: 60px;
     max-height: 80px;
     font: 13px;

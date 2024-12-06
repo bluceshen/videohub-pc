@@ -1,6 +1,6 @@
 <template>
   <div class="search-box">
-    <div class ="search-container">
+    <div class="search-container">
       <el-input class="search" v-model="searchValue" placeholder="搜索视频"></el-input>
       <div class="search-icon">
         <svg

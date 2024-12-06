@@ -67,7 +67,7 @@
 
 
 <script>
-const clickoutside = {
+const clickoutside = {    
     // 初始化指令
     bind(el, binding, vnode) {
         function documentHandler(e) {

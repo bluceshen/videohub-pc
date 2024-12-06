@@ -1,28 +1,29 @@
 <template>
     <div class="upload-container">
+        <UploadChildren v-show="showChild" class="upload-progress" :uploadedFile="fileInput" ref="uploadChildren"
+            @child-event="handleChildEvent" />
+
         <div class="upload-left">
             <div class="video">
-                <VideoLeftPlayer class="video-player" :videoTitle="videoTitle" :releaseTime="releaseTime" :videoUrl="cinVideoUrl"
-                    :videoDesc="videoDesc" />
+                <VideoLeftPlayer class="video-player" :videoTitle="videoTitle" :releaseTime="releaseTime"
+                    :videoUrl="cinVideoUrl" :videoDesc="videoDesc" />
             </div>
             <div class="video-upload">
-                <el-upload class="upload-demo" drag action="" :http-request="uploadFile" :show-file-list="false"
-                    :before-upload="beforeUpload">
-                    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-                    <div class="el-upload__text">
-                        拖拽上传文件 或者 <em>点击上传</em>
-                    </div>
-                </el-upload>
+                <label class="upload-demo" for="fileVideoInput">
+                    <p class="el-upload__text">
+                        <em>点击上传</em>
+                    </p>
+                </label>
+                <input id="fileVideoInput" type="file" style="display: none;" @change="handleVideoFileChange" />
             </div>
         </div>
-
         <div class="upload-right">
             <div class="video-image">
                 <h3 class="imageTitle">封面</h3>
                 <div class="avatar-uploader">
-                    <input type="file" id="fileInput" accept="image/jpeg/png" @change="handleFileChange"
+                    <input type="file" id="fileImageInput" accept="image/jpeg/png" @change="handleImageFileChange"
                         style="display: none;">
-                    <label for="fileInput" class="avatar-uploader-trigger">
+                    <label for="fileImageInput" class="avatar-uploader-trigger">
                         <img v-if="imageUrl" :src="cinImageUrl" class="avatar">
                         <el-icon v-else class="avatar-uploader-icon">
                             <Plus />
@@ -49,11 +50,11 @@
 
 
 <script setup>
-import { ref } from 'vue';
-import { Plus } from '@element-plus/icons-vue'
+import { ref, reactive } from 'vue';
+import { Plus } from '@element-plus/icons-vue';
+import { ElMessage } from 'element-plus';
 import VideoLeftPlayer from './VideoLeftPlayer.vue';
-import { UploadFilled } from '@element-plus/icons-vue';
-
+import UploadChildren from './UploadChildren.vue'; 
 
 const videoTitle = ref('');// 标题
 const videoDesc = ref(''); // 简介
@@ -65,19 +66,36 @@ const cinVideoUrl = ref(''); // 设置视频
 const cinImageUrl = ref(''); // 设置图片
 const imageUrl = ref(false); // 是否已经设置封面
 
-// 视频上传之前的验证
+const isUploading = ref(false);
+const uploadChildren = ref(null);// 创建一个 ref 来引用子组件
+const showChild = ref(false);   //  是否创建子组件
+const uploadData = reactive({       // 使用 reactive 创建一个响应式对象
+    videoFile: null,
+    coverImage: null,
+    title: '',
+    description: ''
+});
+
+// 文件选择或拖拽事件处理
+function handleVideoFileChange(event) {
+    const file = event.target.files[0];
+    if (beforeUpload(file)) {
+        uploadData.videoFile = file;
+        event.target.value = ''; // 清空 input 以允许选择同一文件多次
+        console.log('generateChild:'); // 验证 generateChild 是否为 true
+    }
+}
+// 视频加载之前的验证
 function beforeUpload(file) {
-    // 1. 验证文件类型
     const isVideo = file.type.startsWith('video/');
     if (!isVideo) {
-        alert('请上传一个视频文件!');
+        ElMessage.error('请上传一个视频文件!');
         return false;
     }
 
-    // 2. 验证视频格式（这里限制为 .mp4）
     const fileExtension = file.name.split('.').pop().toLowerCase();
     if (fileExtension !== 'mp4') {
-        alert('请上传MP4格式的视频!');
+        ElMessage.error('请上传MP4格式的视频!');
         return false;
     }
 
@@ -85,19 +103,43 @@ function beforeUpload(file) {
     const videoUrl = URL.createObjectURL(file); // 临时 URL
     cinVideoUrl.value = videoUrl; // 将其赋值给 `cinVideoUrl`
 
-    // 如果需要，可以使用 alert 来查看视频 URL
-    console.log("URL is:", cinVideoUrl.value);
-
-    return true; // 返回 true 继续上传
+    return true;
 }
+// 上传之前的验证
+function validateInfo() {
+    // 封面出错误
+    if (cinImageUrl.value == '') {
+        ElMessage.error('请上传封面图片!');
+        return false;
+    }
 
-function handleFileChange(event) {
+    // 视频出错误
+    if (cinVideoUrl.value == '') {
+        ElMessage.error('请上传MP4格式的视频!');
+        return false;
+    }
+
+    // 标题出错误
+    if (cinVideoTitle.value == '') {
+        ElMessage.error('请填写视频标题!');
+        return false;
+    }
+
+    return true;
+}
+// 图片上传
+function handleImageFileChange(event) {
     const file = event.target.files[0];
     if (!file) return;
 
     const isValidFormat = ['image/jpeg', 'image/png'].includes(file.type);
     if (!isValidFormat) {
-        alert('Avatar picture must be JPG format!');
+        ElMessage.error('请上传jpg或png格式的图片!');
+        return;
+    }
+
+    if(file.size > 10 * 1024 * 1024){
+        ElMessage.error('图片大小不能超过10MB!');
         return;
     }
 
@@ -105,12 +147,45 @@ function handleFileChange(event) {
     // 读取文件并设置为 imageUrl
     reader.onload = (e) => {
         cinImageUrl.value = e.target.result; // 将图片的base64数据赋值给imageUrl
+        uploadData.coverImage = e.target.result;
         imageUrl.value = true;
     };
 
     reader.readAsDataURL(file); // 将文件读取为base64格式
 }
+// 处理子组件的事件
+function handleChildEvent(data) {
+    if (data.result) {
+        ElMessage.success(data.message);
+        clearCinInfo();
+    } else {
+        ElMessage.error(data.message);
+        showChild.value = false;
+        isUploading.value = false;
+    }
+    
+}
+// 视频上传
+function handleUpload() {
+    if (!validateInfo()) return;
+    if (isUploading.value) {
+        ElMessage.error('正在上传中，请勿重复上传');
+        return;
+    }
 
+    // 显示子组件并且设置上传的数据
+    isUploading.value = true;
+    uploadData.title = cinVideoTitle.value;
+    uploadData.description = cinVideoDesc.value;
+    showChild.value = true;
+
+    // 调用子组件的方法
+    if (uploadChildren.value && uploadChildren.value.hanldeUploadFile) {
+        uploadChildren.value.hanldeUploadFile(uploadData);
+    } else {
+        console.error('子组件未正确初始化或方法不存在');
+    }
+}
 
 function handlePreviw() {
     if (cinVideoTitle.value) {
@@ -128,28 +203,23 @@ function handlePreviw() {
         videoDesc.value = cinVideoDesc.value;
         const currentDate = new Date();
         releaseTime.value = currentDate.toISOString().split('T')[0];
-    }else{
+    } else {
         alert('请输入标题');
         return;
     }
 }
-function clearCinInfo(){
+
+function clearCinInfo() {
     // 清空输入框
-    cinVideoTitle.value = '';
-    cinVideoDesc.value = '';
     cinVideoUrl.value = '';
     cinImageUrl.value = '';
-    imageUrl.value = false;
     videoTitle.value = '';
     videoDesc.value = '';
     releaseTime.value = '';
+    imageUrl.value = false;
+    showChild.value = false;
+    isUploading.value = false;
 }
-
-function handleUpload() {
-    alert('上传成功');
-    clearCinInfo();
-}
-
 
 </script>
 
@@ -163,10 +233,27 @@ function handleUpload() {
     grid-template-columns: 5fr 4fr;
 }
 
+/* 定义淡入淡出的过渡 */
+.upload-progress {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    /* 定义过渡效果 */
+    display: float;
+    left: 14%;
+    width: 80%;
+    position: absolute;
+    background-color: aliceblue;
+    z-index: 1000;
+}
+
+.upload-container .upload-progress[v-show="false"] {
+    opacity: 0;
+    /* 可选：如果需要保留空间，可以设置 visibility 而不是 display */
+    /* visibility: hidden; */
+}
+
 /* 左侧视图 */
 .upload-left {
-    display: grid;
-    grid-template-rows:4fr 1fr;
     grid-column: 1;
     background-color: var(--background-black2);
     height: 100%;
@@ -178,34 +265,43 @@ function handleUpload() {
     margin: 14px 10px;
     border-radius: 3px;
     border: 1px solid var(--text-white3);
+    height: 600px;
 }
 
-.video .video-player{
+.video .video-player {
     width: 100%;
     height: 100%;
 }
-
 
 /* 上传按钮框 */
 .video-upload {
-    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100px;
-    box-sizing: border-box;
-    border:none;
-    /* border:1px solid var(--text-white2); */
-    /* color: #8c939d; */
+    margin: 0px 10px;
+    border: 1px solid rgb(123, 121, 121);
+    background-color: var(--text-white2);
 }
 
-.video-upload .upload-demo * {
-    background-color: var(--background-black2);
-    height: 100%;
-    margin: 0;
-}
-
-.video-upload .upload-demo .el-icon--upload {
+.upload-demo {
     width: 100%;
-    height: 100px;
-    margin-top: -65px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* 添加边框 */
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+}
+
+.upload-demo:hover {
+    border-color: #409eff;
+    /* 鼠标悬停时改变边框颜色 */
+    background-color: #f0f9ff;
+    /* 鼠标悬停时改变背景颜色 */
 }
 
 /* 右侧视图 */
@@ -295,7 +391,7 @@ function handleUpload() {
     height: 30px;
     background-color: var(--background-black3);
     color: var(--text-white1);
-    border:none;
+    border: none;
 }
 
 /* 简介 */
@@ -316,7 +412,7 @@ function handleUpload() {
 .video-desc textarea {
     color: var(--text-white1);
     background-color: var(--background-black3);
-    border:none;
+    border: none;
     grid-column: 2;
     height: 200px;
     resize: none;
@@ -344,8 +440,8 @@ function handleUpload() {
     color: var(--background-black2);
 }
 
-.el-button{
-    color:var(--background-black2);
+.el-button {
+    color: var(--background-black2);
     background-color: var(--text-white2);
     border: none;
 }

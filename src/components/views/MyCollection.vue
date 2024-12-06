@@ -3,7 +3,6 @@
 
     <div class="search-container">
       <Search class="search"></Search>
-
     </div>
 
     <div class="content-container">
@@ -25,12 +24,10 @@ import { useStore } from 'vuex';
 import Video from '../items/Video.vue';
 import Search from '../items/Search.vue';
 
-const store = useStore(); // 直接访问 Vuex store
-const videos = ref(store.state.user.myCollectionData);
-// 当组件挂载时，从 API 获取视频数据
-// onMounted(() => {
-//   store.dispatch('fetchVideos');
-// });
+const stroe = useStore();
+const videos = ref(stroe.state.user.myCollectionData);
+
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -51,11 +48,11 @@ const videos = ref(store.state.user.myCollectionData);
   grid-row: 1;
 }
 
-.content-container{
-   background-color: var(--background-black2);
+.content-container {
+  background-color: var(--background-black2);
   width: 100%;
   height: 100%;
-  grid-row: 2; 
+  grid-row: 2;
 }
 
 .sub-grid-container {
@@ -97,17 +94,16 @@ const videos = ref(store.state.user.myCollectionData);
 
 .title {
   font-size: 40px;
-  font-style:initial;
+  font-style: initial;
   margin-left: 2%;
-  color:var(--text-white2);
+  color: var(--text-white2);
 }
 
-.line{
+.line {
   width: 98%;
-  margin-left:1%;
-  border:none;
+  margin-left: 1%;
+  border: none;
   height: 1px;
-  background-color:var(--text-white3);
+  background-color: var(--text-white3);
 }
-
 </style>

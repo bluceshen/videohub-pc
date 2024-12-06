@@ -25,7 +25,7 @@ import Comment from '../items/Comment.vue';
 
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
-const video = ref(store.state.videoHomeData[1]); // 从 store 中获取 videoHomeData 数组
+const video = ref(store.state.home.videoHomeData[2]); // 从 store 中获取 videoHomeData 数组
 
 
 </script>

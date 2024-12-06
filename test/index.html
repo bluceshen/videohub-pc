@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>React App</title>
+    </meta>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <input type="file" id="file" title="上传" >
+        <button id="uploadButton">上传文件</button>
+        <p id="status"></p>
+
+    </div>
+
+    <script>
+        var fileInput = document.getElementById('file');
+        // 获取 DOM 元素
+        var fileInput = document.getElementById('file');
+        var uploadButton = document.getElementById('uploadButton');
+        var statusElement = document.getElementById('status');
+
+        // 添加事件监听器，当用户选择文件时触发
+        fileInput.addEventListener('change', function(event) {
+            var files = event.target.files; // 获取用户选择的文件列表
+            if (files.length === 0) {
+                statusElement.textContent = "未选择任何文件";
+            } else {
+                statusElement.textContent = "已选择 " + files.length + " 个文件";
+            }
+        });
+
+        // 添加事件监听器，当用户点击上传按钮时触发
+        uploadButton.addEventListener('click', function() {
+            var files = fileInput.files;
+            if (files.length === 0) {
+                statusElement.textContent = "请先选择文件";
+                return;
+            }
+
+            // 创建 FormData 对象
+            var formData = new FormData();
+            for (var i = 0; i < files.length; i++) {
+                formData.append('file', files[i]); // 将每个文件添加到 FormData 中
+            }
+
+            // 使用 fetch API 发送 POST 请求
+            fetch('http://localhost:8080/videos/chunk', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                statusElement.textContent = "上传成功: " + data;
+            })
+            .catch(error => {
+                statusElement.textContent = "上传失败: " + error;
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+
+</html>
