@@ -15,7 +15,7 @@
         <br>
         <!-- 视频播放器 -->
         <div class="video-wrap">
-            <video style="width: 100%; height:100%; object-fit: fill;" controls :src="videoUrl">
+            <video id="videoPlayer" style="width: 100%; height:100%; object-fit: fill;" controls :src="videoUrl">
                 <source :src="videoUrl" type="video/mp4" />
                 <p>视频加载失败</p>
             </video>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useStore } from 'vuex';
 
 /* 切换为videoList */
@@ -100,8 +100,44 @@ function checkDesc(){
     }
 }
 
+// 删除视频源
+function removeVideoSrc(){
+    const videoPlayer = document.getElementById("videoPlayer");
+    videoPlayer.removeAttribute('src');
+    while (videoPlayer.firstChild) {
+        videoPlayer.removeChild(videoPlayer.firstChild);
+    }
+}
+
+// 添加视频源
+function addVideoSrc(newValue) {
+    const videoPlayer = document.getElementById("videoPlayer");
+    if (videoPlayer) {
+        // 设置新的视频源
+        videoPlayer.setAttribute('src', newValue);
+        // 重新加载视频以应用新的源
+        videoPlayer.load();
+    } else {
+        console.error('Video player element not found');
+    }
+}
+
+watch(props.videoUrl, (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+        // 如果新值与旧值不同，则更新视频源
+        addVideoSrc(newValue);
+    }
+})
+
 onMounted(() => {
+    // 检查描述信息
     checkDesc();
+    // 移除视频源（如果有的话）
+    removeVideoSrc();
+    // 如果有初始视频 URL，则添加之
+    if (props.videoUrl) {
+        addVideoSrc(props.videoUrl);
+    }
 });
 function handlerClick() {
     if (desc_info.value && toggleButton.value) {
