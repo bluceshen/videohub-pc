@@ -68,9 +68,9 @@ export const deleteUsersFavorites = (jsonData) => {
 
 ////////////////////////////////////////////////////////////
 
-// 获取视频
+// 获取视频,true,用于点赞是否
 export const getVideos = (jsonData) => {
-  return myGet("/videos", jsonData, false);
+  return myGet("/videos", jsonData, true);
 };
 
 ////////////////////////////////////////////////////////////
@@ -99,9 +99,9 @@ export const deleteVideosLike = (jsonData) => {
 
 ////////////////////////////////////////////////////////////
 
-//获取视频评论
+//获取视频评论,true,点赞与否
 export const getVideosComments = (jsonData) => {
-  return myGet("/videos/comments", jsonData, false);
+  return myGet("/videos/comments", jsonData, true);
 };
 
 //新增视频评论

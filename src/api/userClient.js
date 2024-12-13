@@ -1,6 +1,5 @@
 import axios from "axios";
 import { getAccessToken, getRefreshToken, setAccessToken } from "./auth";
-import store from "@/vuex/root";
 
 // 创建一个Axios实例
 const userClient = axios.create({

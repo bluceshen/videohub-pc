@@ -8,6 +8,7 @@
     <!-- 使用 v-for 渲染 Video 组件列表 -->
     <Video class="video" v-for="video in videos" :key="video.title" :title="video.title" :author="video.name"
       :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
+
   </div>
 </template>
 

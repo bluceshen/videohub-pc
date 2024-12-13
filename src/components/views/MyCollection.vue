@@ -3,7 +3,6 @@
 
     <div class="search-container">
       <Search class="search" :searchType="'collection'"></Search>
-
     </div>
 
     <div class="content-container">
@@ -41,8 +40,9 @@ onMounted(async() => {
   try {
     const response = await getUsersFavorites();
     if (response.data.code === 200) {
-      store.dispatch('home/setMyCollection', response.data.data);
-      console.log(response.data.data); 
+      store.dispatch('user/setMyCollection', response.data.data.videos);
+      console.log('收藏获取成功');
+      console.log(response.data.data.videos); 
     } else {
       console.log('收藏获取失败');
     }

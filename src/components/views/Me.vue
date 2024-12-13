@@ -40,12 +40,13 @@ import { useRouter } from "vue-router";
 import { getUsers } from '@/api/userApi';
 
 const router = useRouter();
-const avatarSrc = require("@/assets/avatar.png");
+// const avatarSrc = require("@/assets/avatar.png");
 const activeIdx = computed(() => router.currentRoute.value.path);
 
 const store = useStore();
 const userStatus = computed(() => store.state.user.status);
 const userRegisterTime = computed(() => store.state.user.registerTime);
+const avatarSrc = computed(() => store.state.user.avatar);
 // 当组件挂载时，获取个人数据
 onMounted(async () => {
   try {

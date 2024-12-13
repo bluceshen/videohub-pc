@@ -65,42 +65,17 @@
     </div>
 </template>
 
-
 <script>
-const clickoutside = {
-    // 初始化指令
-    bind(el, binding, vnode) {
-        function documentHandler(e) {
-            // 这里判断点击的元素是否是本身，是本身，则返回
-            if (el.contains(e.target)) {
-                return false;
-            }
-            // 判断指令中是否绑定了函数
-            if (binding.expression) {
-                // 如果绑定了函数 则调用那个函数，此处binding.value就是handleClose方法
-                binding.value(e);
-            }
-        }
-        // 给当前元素绑定个私有变量，方便在unbind中可以解除事件监听
-        el.vueClickOutside = documentHandler;
-        document.addEventListener('click', documentHandler);
-    },
-    update() { },
-    unbind(el, binding) {
-        // 解除事件监听
-        document.removeEventListener('click', el.vueClickOutside);
-        delete el.vueClickOutside;
-    },
-};
+
 export default {
     name: 'ArticleComment',
     data() {
         return {
-            btnShow: false,
+            btnShow: true,
             index: '0',
             replyComment: '',
             myName: 'Lana Del Rey',
-            myHeader: 'https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg',
+            myHeader: 'https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg&#39;',
             myId: 19870621,
             to: '',
             toId: -1,
@@ -108,7 +83,7 @@ export default {
                 {
                     name: 'Lana Del Rey',
                     id: 19870621,
-                    headImg: 'https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg',
+                    headImg: 'https://ae01.alicdn.com/kf/Hd60a3f7c06fd47ae85624badd32ce54dv.jpg&#39;',
                     comment: '我发布一张新专辑Norman Fucking Rockwell,大家快来听啊',
                     time: '2019年9月16日 18:43',
                     commentNum: 2,
@@ -118,7 +93,7 @@ export default {
                         {
                             from: 'Taylor Swift',
                             fromId: 19891221,
-                            fromHeadImg: 'https://ae01.alicdn.com/kf/H94c78935ffa64e7e977544d19ecebf06L.jpg',
+                            fromHeadImg: 'https://ae01.alicdn.com/kf/H94c78935ffa64e7e977544d19ecebf06L.jpg&#39;', 
                             to: 'Lana Del Rey',
                             toId: 19870621,
                             comment: '我很喜欢你的新专辑！！',
@@ -130,7 +105,7 @@ export default {
                         {
                             from: 'Ariana Grande',
                             fromId: 1123,
-                            fromHeadImg: 'https://ae01.alicdn.com/kf/Hf6c0b4a7428b4edf866a9fbab75568e6U.jpg',
+                            fromHeadImg: 'https://ae01.alicdn.com/kf/Hf6c0b4a7428b4edf866a9fbab75568e6U.jpg&#39;',
                             to: 'Lana Del Rey',
                             toId: 19870621,
                             comment: '别忘记宣传我们的合作单曲啊',
@@ -145,7 +120,7 @@ export default {
                 {
                     name: 'Taylor Swift',
                     id: 19891221,
-                    headImg: 'https://ae01.alicdn.com/kf/H94c78935ffa64e7e977544d19ecebf06L.jpg',
+                    headImg: 'https://ae01.alicdn.com/kf/H94c78935ffa64e7e977544d19ecebf06L.jpg&#39;',
                     comment: '我发行了我的新专辑Lover',
                     time: '2019年9月16日 18:43',
                     commentNum: 1,
@@ -170,7 +145,7 @@ export default {
                 {
                     name: 'Norman Fucking Rockwell',
                     id: 20190830,
-                    headImg: 'https://ae01.alicdn.com/kf/Hdd856ae4c81545d2b51fa0c209f7aa28Z.jpg',
+                    headImg: 'https://ae01.alicdn.com/kf/Hdd856ae4c81545d2b51fa0c209f7aa28Z.jpg&#39',
                     comment: 'Plz buy Norman Fucking Rockwell on everywhere',
                     time: '2019年9月16日 18:43',
                     commentNum: 0,
@@ -286,7 +261,10 @@ export default {
         }
     },
 }
-</script>
+</script> 
+
+
+
 
 <style scoped>
 .my-reply {

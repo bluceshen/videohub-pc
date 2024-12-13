@@ -7,8 +7,8 @@
           :videoUrl="video.video_path"
           :videoDesc="video.description"
           >
-          <Comment></Comment>
-        </VideoLeftPlayer>
+        </VideoLeftPlayer>          
+        <Comment2></Comment2>
       </div>
       <div class="VideoList">
         <VideoRightList :upName="video.name"></VideoRightList>
@@ -21,7 +21,7 @@ import VideoLeftPlayer from "../items/VideoLeftPlayer.vue"
 import VideoRightList from "../items/VideoRightList.vue"
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
-import Comment from '../items/Comment.vue';
+import Comment2 from '../items/Comment2.vue';
 
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
@@ -33,9 +33,9 @@ const video = computed(()=>store.state.home.currentVideoData); // 从 store 中�
 /* scoped表示这里的css样式不会泄露到其他组件 */
 .VideoPlay-Win {
   max-width: 2000px;
-  min-width: 1150px;
+  min-width: 1000px;
   width: auto;
-  height: auto;
+  height: 100%;
   grid-gap: 0 50px;
   grid-template-columns: 2fr 1fr;
   margin: 0 auto;
@@ -45,13 +45,18 @@ const video = computed(()=>store.state.home.currentVideoData); // 从 store 中�
   box-sizing: content-box;
   justify-content: center;
   position: relative;
-  background-color: var(--background-black1);
+  /* background-color: var(--background-black1); */
+  overflow-y: auto;
 }
-
 .VideoPlay {
+  display: grid;
+  grid-template-rows: 700px 1fr; 
   grid-column: 1;
 }
-
+.VideoLeftPlayer {
+  min-height: 500px;
+  max-height: 500px;
+}
 .VideoList {
   grid-column: 2;
 }

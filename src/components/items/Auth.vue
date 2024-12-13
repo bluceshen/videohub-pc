@@ -1,7 +1,7 @@
 <!-- src/components/Auth.vue -->
 <template>
   <div class="auth" v-show="showAuth">
-    <div class="layer"></div>
+    <!-- <div class="layer"></div> -->
     <div class="auth-content">
       <button class="exit" @click="closeAuth">退出</button>
       <div class="content">
@@ -144,6 +144,7 @@ async function login() {
     };
     const response = await postUsersToken(userData);
     if (response.data.code == 200) {
+      console.log(CryptoJS.SHA256(login_password.value).toString());
       messageLogin.value = "登录成功！";
       setAccessToken(response.data.data.access_token);
       setRefreshToken(response.data.data.refresh_token);

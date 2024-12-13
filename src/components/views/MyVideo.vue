@@ -57,8 +57,8 @@ onMounted(async() => {
   try {
     const response = await getUsersVideos();
     if (response.data.code === 200) {
-      store.dispatch('user/setMyVideo', response.data.data);
-      console.log(response.data.data); 
+      store.dispatch('user/setMyVideo', response.data.data.videos);
+      console.log(response.data.data.videos); 
     } else {
       console.log('我的发布视频获取失败');
     }

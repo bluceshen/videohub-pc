@@ -81,9 +81,12 @@
 <script setup>
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
-
+import { useStore } from 'vuex';
 const router = useRouter();
-const avatarSrc = require("@/assets/avatar.png");
+
+const store = useStore();
+const avatarSrc = computed(() => store.state.user.avatar);
+
 const handleAvatarClick = () => {
     router.push("/me/info");
 };
