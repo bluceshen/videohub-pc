@@ -5,10 +5,11 @@
       <div class="avatar">
         <el-avatar :size="80" :src="avatarSrc" style="border: 1px solid black">
         </el-avatar>
-        <span class="set">设置</span>
+        <input type="file" @change="handleFileChange" style="display: none" ref="fileInput">
+        <span class="set" @click="triggerFileInput">设置</span>
       </div>
-      <span class="status">状态:{{ userStatus }}</span>
-      <span class="time">注册时间:{{ userRegisterTime }}</span>
+      <span class="status">状态:{{ status }}</span>
+      <span class="time">注册时间:{{ date }}</span>
     </div>
 
     <div class="content-container">
@@ -34,10 +35,11 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useStore } from 'vuex';
 import { useRouter } from "vue-router";
 import { getUsers } from '@/api/userApi';
+import {postUsersAvatar} from '@/api/userApi';
 
 const router = useRouter();
 // const avatarSrc = require("@/assets/avatar.png");
@@ -46,21 +48,92 @@ const activeIdx = computed(() => router.currentRoute.value.path);
 const store = useStore();
 const userStatus = computed(() => store.state.user.status);
 const userRegisterTime = computed(() => store.state.user.registerTime);
+
+const date = computed(() => {
+  const timestamp = userRegisterTime.value;
+  return new Date(timestamp).toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  });
+});
+
+const status = computed(() => {
+  const num = userStatus.value;
+  if (num == 0) {
+    return '正常';
+  } else if (num == 1) {
+    return '封禁';
+  } else {
+    return '注销';
+  }
+})
+
 const avatarSrc = computed(() => store.state.user.avatar);
 // 当组件挂载时，获取个人数据
-onMounted(async () => {
+// onMounted(async () => {
+//   try {
+//     const response = await getUsers();
+//     if (response != null && response.data.code === 200) {
+//       store.dispatch('user/setMeInfo', response.data.data.user);
+//     }
+//   } catch (error) {
+//     if (error.message === "AUTHENTICATION_FAILED") {
+//       console.log("访问令牌失效，请重新登录");
+//       store.dispatch('user/openAuth');
+//     }
+//   }
+// });
+
+// import { ref } from 'vue';
+
+// 创建一个引用来控制文件输入
+const fileInput = ref(null);
+
+// 处理文件选择的变化
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    uploadAvatar(file);
+  }
+};
+
+// 上传头像的方法
+const uploadAvatar = async (file) => {
+  const formData = new FormData();
+  formData.append('avatar', file);
   try {
-    const response = await getUsers();
-    if (response != null && response.data.code === 200) {
-      store.dispatch('user/setMeInfo', response.data.data.user);
+    const response = await postUsersAvatar(formData);
+    if (response.data.code === 200) {
+      console.log('头像上传成功');
+      //尝试更新个人信息
+      try {
+        const response2 = await getUsers();
+        if (response2 != null && response2.data.code === 200) {
+          store.dispatch('user/setMeInfo', response2.data.data.user);
+        }
+      } catch (error) {
+        if (error.message === "AUTHENTICATION_FAILED") {
+          console.log("访问令牌失效，请重新登录");
+          store.dispatch('user/openAuth');
+        }
+      }
+    } else {
+      message.value = response.data.error;
+      console.log(response.data.error);
     }
   } catch (error) {
-    if (error.message === "AUTHENTICATION_FAILED") {
-      console.log("访问令牌失效，请重新登录");
-      store.dispatch('user/openAuth');
-    }
+    console.log(error);
   }
-});
+};
+
+// 触发文件输入的方法
+const triggerFileInput = () => {
+  fileInput.value.click();
+};
+
+
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -99,11 +172,15 @@ onMounted(async () => {
 .set {
   position: absolute;
   font-size: 20px;
-  ;
-  color: var(--background-black1);
+  color: transparent;
   left: 20px;
   top: 25px;
   z-index: 5000;
+}
+
+.avatar:hover .set {
+  color: #000; /* 悬停时显示的文字颜色 */
+  cursor: pointer;
 }
 
 .content-container {

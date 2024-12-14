@@ -54,7 +54,7 @@ import { ref, reactive } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import VideoLeftPlayer from "@/components/items/VideoLeftPlayer";
-import UploadChildren from '@/components/items/UploadChildren';
+// import UploadChildren from '@/components/items/UploadChildren';
 
 const videoTitle = ref('');// 标题
 const videoDesc = ref(''); // 简介

@@ -7,7 +7,7 @@
                     <img :src="'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'" />
                 </div>
                 <div class="up-name">
-                    <span title="牛魔王打发手动阀的"> {{ upName }} </span>
+                    <span title="牛魔王打发手动阀的"> {{ name }} </span>
                 </div>
             </div>
             <div class="return_button">
@@ -29,6 +29,7 @@ import {computed} from 'vue';
 
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
+//TODO:加上网络逻辑
 const videos = computed(()=>store.state.home.videoHomeData); // 从 store 中获取 videoHomeData 数组
 import { useRouter } from "vue-router";
 
@@ -36,9 +37,9 @@ const router = useRouter();
 
 
 const props = defineProps({
-    userImgUrl: String,
-    upName: String,
-    videoList: Array,
+    title: String,
+    avatar: String,
+    name: String,
 })
 
 function lastPage(){

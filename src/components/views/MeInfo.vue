@@ -8,17 +8,17 @@
 
         <div class="subgrid-container2">
             <span class="text">邮箱号：</span>
-            <el-input class="input" v-model="input_email" :placeholder="email"></el-input>
+            <div class="text"> {{ stored_email }} </div>
         </div>
 
-        <div class="subgrid-container3">
+        <!-- <div class="subgrid-container3">
             <span class="text">验证码：</span>
             <el-input class="input" v-model="input_code"></el-input>
-        </div>
+        </div> -->
 
         <div class="button-container">
             <el-button class="change-button" @click="updateInfo">确认修改</el-button>
-            <el-button class="code-button" @click="getCode">获取验证码</el-button>
+            <!-- <el-button class="code-button" @click="getCode">获取验证码</el-button> -->
         </div>
     </div>
 </template>
@@ -27,52 +27,27 @@
 import { computed, ref, onMounted } from "vue";
 import { useStore } from 'vuex';
 import { getUsers } from '@/api/userApi';
-import * as validator from 'validator';
-import { postUsersEmail, putUsers } from "@/api/userApi";
+
+import { putUsers } from "@/api/userApi";
 
 const store = useStore();
 const name = computed(() => store.state.user.name);
-const email = computed(() => store.state.user.email);
 const message = ref("");
 const input_name = ref("");
-const input_email = ref("");
-const input_code = ref("");
 
 const stored_email = computed(() => store.state.user.email);
+
 async function updateInfo() {
-    var final_name = name.value;
-    var final_email = email.value;
+
     if (input_name.value != "" && input_name.value.trim() != "") {
-        final_name = input_name.value;
-    }
-
-    const flag = ref("true");
-    if (input_email.value != "" && input_email.value.trim() != "") {
-        if (validator.isEmail(input_email.value)) {
-            final_email = input_email.value;
-        } else {
-            message.value = '邮箱格式非法';
-            flag.value = "false";
-        }
-    }
-
-    if(flag.value === "true" && (input_code.value == "" || input_code.value.trim() == "")){
-        message.value = '验证码不能为空';
-        flag.value = "false";
-    }
-
-    if (flag.value === "true") {
         const userData = {
-            name: final_name,
-            email: final_email,
-            code: input_code.value,
+            name: input_name.value
         };
-
-        const response = await putUsers(userData);
-        if (response.data.code === 200) {
-            message.value = '修改成功';
-            console.log('修改成功');
-            async () => {
+        try {
+            const response = await putUsers(userData);
+            if (response.data.code === 200) {
+                message.value = '修改成功';
+                console.log('修改成功');
                 try {
                     const response = await getUsers();
                     if (response != null && response.data.code === 200) {
@@ -84,29 +59,17 @@ async function updateInfo() {
                         store.dispatch('user/openAuth');
                     }
                 }
+            } else {
+                message.value = response.data.error;
+                console.log(response.data.error);
             }
-        } else {
-            message.value = response.data.error;
-            console.log(response.data.error);
+        } catch (error) {
+            console.log(error);
+            message.value = '修改失败';
+            input_name.value = '';
         }
-    }
-}
-
-async function getCode() {
-    if (!validator.isEmail(stored_email.value)) {
-        message.value = '邮箱格式非法';
     } else {
-        const email = {
-            email: stored_email.value,
-        };
-        const response = await postUsersEmail(email);
-        if (response.data.code === 200) {
-            message.value = "验证码发送成功";
-            console.log('验证码发送成功');
-        } else {
-            message.value = response.data.error;
-            console.log("验证码发送失败");
-        }
+        message.value = '用户名不能为空';
     }
 }
 
@@ -233,15 +196,15 @@ onMounted(async () => {
 
 .change-button {
     grid-row: 1;
-    grid-column: 1;
-    width: 100px;
+    grid-column: 2;
+    width: 200px;
 }
 
-.code-button {
+/* .code-button {
     grid-row: 1;
     grid-column: 2;
     width: 100px;
-}
+} */
 
 .el-button {
     font-size: medium;
@@ -252,20 +215,20 @@ onMounted(async () => {
 
 .button-container {
     grid-row: 7;
-    grid-column: 2;
+    grid-column: 1/4;
     width: 100%;
     height: 100%;
 
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
     place-items: center;
 }
 
 .message {
     grid-row: 2;
     grid-column: 2;
-    font-size : larger;
+    font-size: larger;
     /* width: 1px; */
     color: var(--red1);
 }

@@ -51,9 +51,9 @@ async function changePwd() {
         message.value = '新密码长度应在6位到18位之间';
     } else if (input_new_pwd.value !== input_repeat_pwd.value) {
         message.value = '重复密码和新密码应保持一致';
-    } else if(input_new_pwd.value === input_old_pwd.value){
+    } else if (input_new_pwd.value === input_old_pwd.value) {
         message.value = '新密码不能和旧密码一致'
-    }else if (input_code.value === "" || input_code.value.trim() === "") {
+    } else if (input_code.value === "" || input_code.value.trim() === "") {
         message.value = '验证码不能为空';
     } else {
         const passwordData = {
@@ -61,17 +61,22 @@ async function changePwd() {
             new_password: CryptoJS.SHA256(input_new_pwd.value).toString(),
             code: input_code.value
         }
-        const response = await putUsersPassword(passwordData);
-        if (response.data.code === 200) {
-            message.value = '密码修改成功,请重新登录';
-            setTimeout(() => {
-                store.dispatch('user/openAuth');
-            }, 1000);
-            console.log('密码修改成功');
-        } else {
-            message.value = response.data.error;
-            console.log('密码修改失败');
+        try {
+            const response = await putUsersPassword(passwordData);
+            if (response.data.code === 200) {
+                message.value = '密码修改成功,请重新登录';
+                setTimeout(() => {
+                    store.dispatch('user/openAuth');
+                }, 1000);
+                console.log('密码修改成功');
+            } else {
+                message.value = response.data.error;
+                console.log('密码修改失败');
+            }
+        } catch (error) {
+            console.log(error);
         }
+
     }
 }
 
@@ -82,13 +87,17 @@ async function getCode() {
         const email = {
             email: stored_email.value,
         };
-        const response = await postUsersEmail(email);
-        if (response.data.code === 200) {
-            message.value = "验证码发送成功";
-            console.log('验证码发送成功');
-        } else {
-            message.value = response.data.error;
-            console.log("验证码发送失败");
+        try{
+            const response = await postUsersEmail(email);
+            if (response.data.code === 200) {
+                message.value = "验证码发送成功";
+                console.log('验证码发送成功');
+            } else {
+                message.value = response.data.error;
+                console.log("验证码发送失败");
+            }
+        }catch(error){
+            console.log(error);
         }
     }
 }
@@ -211,7 +220,7 @@ async function getCode() {
 .message {
     grid-row: 2;
     grid-column: 2;
-    font-size : larger;
+    font-size: larger;
     /* width: 1px; */
     color: var(--red1);
 }

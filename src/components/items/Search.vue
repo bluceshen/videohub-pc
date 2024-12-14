@@ -83,6 +83,10 @@ function search() {
 .search{
     grid-column:2/11;
 }
+
+.search-icon:hover{
+  cursor: pointer;
+}
 ::v-deep .el-input__wrapper {
   background-color:var(--background-black3);
   box-shadow: none !important;
