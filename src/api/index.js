@@ -1,5 +1,4 @@
 import { myPost } from './userClient'
-import CryptoJS from 'crypto-js';
 /**
  * [uploadFile] - 上传切片参数
  * @param fileHash 文件hash，String
