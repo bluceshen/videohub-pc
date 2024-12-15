@@ -138,19 +138,13 @@ function handleImageFileChange(event) {
     return;
   }
 
-  if (file.size > 10 * 1024 * 1024) {
-    ElMessage.error('图片大小不能超过10MB!');
-    return;
-  }
-
   const reader = new FileReader();
   // 读取文件并设置为 imageUrl
   reader.onload = (e) => {
     cinImageUrl.value = e.target.result; // 将图片的base64数据赋值给imageUrl
-    uploadData.coverImage = e.target.result;
     imageUrl.value = true;
   };
-
+  uploadData.coverImage = file;
   reader.readAsDataURL(file); // 将文件读取为base64格式
 }
 

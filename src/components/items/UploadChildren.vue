@@ -147,7 +147,7 @@ const uploadSignleFile = (taskArrItem) => {
             // 在调用接口的同时，相当于同时调用了传入的这个函数，又能同时拿到返回的取消方法去赋值
             needObj.cancel = onCancelFunc
         }).catch((err) => {
-            alert.log("错误信息：" + err);
+            alert("错误信息：" + err);
             return false;
         });
 
@@ -229,7 +229,7 @@ const handleMerge = async (taskArrItem) => {
 
     console.log("上传数据：", fd);
     const res = await mergeChunk(fd).catch((err) => {
-        alert(err);
+        alert("上传图片错误", err);
     })
 
     console.log('合并接口返回', res);
