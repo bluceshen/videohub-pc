@@ -39,9 +39,9 @@ const hanldeUploadFile = async (uploadSrcFile) => {
         errNumber: 0, // 报错的个数,默认是0个,超多3个就是直接上传中断
         percentage: 0, // 单个文件上传进度条
         cancel: null, // 用于取消切片上传接口
-        videoTitle: uploadFile.title,
-        videoDescription: uploadFile.description,
-        videoImage: uploadFile.coverImage
+        videoTitle: uploadSrcFile.title,
+        videoDescription: uploadSrcFile.description,
+        videoImage: uploadSrcFile.coverImage
     })
     if (uploadFileList.value.length >= 1) {
         uploadFileList.value.length = 0;
