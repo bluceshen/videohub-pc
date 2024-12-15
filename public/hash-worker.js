@@ -24,8 +24,10 @@ async function calculateChunkHash(chunkFile) {
         const arrayBuffer = e.target.result;
         const hashArray = Array.from(new Uint8Array(arrayBuffer));
         const chunkHash = sha256.array(hashArray).map(b => b.toString(16).padStart(2, '0')).join('');
+        console.log("hreerere  "+chunkHash);
         resolve({ chunkHash, arrayBuffer }); // 返回切片哈希值和二进制数据
       } catch (err) {
+        console.log(err);
         reject(err); // 如果计算错误，则拒绝Promise
       }
     };
@@ -36,31 +38,59 @@ async function calculateChunkHash(chunkFile) {
 }
 
 // 并发控制函数：限制并发任务数量
+// async function processChunksWithConcurrencyLimit(fileChunkList, concurrencyLimit) {
+//   const results = [];
+//   const processing = [];
+
+//   for (const chunk of fileChunkList) {
+//     // 创建一个处理切片的任务
+//     const promise = calculateChunkHash(chunk.chunkFile).then(result => {
+//       results[chunk.chunkId] = result; // 按照切片ID顺序存储结果
+//       return result;
+//     }).catch(error => {
+//       throw error; // 确保错误能够被捕获
+//     });
+
+//     // 将任务添加到正在处理的任务列表中
+//     processing.push(promise);
+
+//     // 当任务数量达到并发限制时，等待最早完成的任务
+//     if (processing.length >= concurrencyLimit) {
+//       await Promise.race(processing); // 等待最早完成的任务
+//       processing.splice(processing.indexOf(Promise.resolve()), 1); // 移除已完成的任务
+//     }
+//   }
+
+//   // 等待所有任务完成
+//   await Promise.all(processing);
+
+//   return results;
+// }
+
+// 并发控制函数：限制并发任务数量
 async function processChunksWithConcurrencyLimit(fileChunkList, concurrencyLimit) {
   const results = [];
   const processing = [];
 
   for (const chunk of fileChunkList) {
-    // 创建一个处理切片的任务
     const promise = calculateChunkHash(chunk.chunkFile).then(result => {
       results[chunk.chunkId] = result; // 按照切片ID顺序存储结果
       return result;
     }).catch(error => {
+      console.error('处理切片时出错:', error);
       throw error; // 确保错误能够被捕获
     });
 
-    // 将任务添加到正在处理的任务列表中
     processing.push(promise);
 
-    // 当任务数量达到并发限制时，等待最早完成的任务
     if (processing.length >= concurrencyLimit) {
       await Promise.race(processing); // 等待最早完成的任务
-      processing.splice(processing.indexOf(Promise.resolve()), 1); // 移除已完成的任务
+      processing.splice(0, 1); // 移除已完成的任务
     }
   }
 
   // 等待所有任务完成
-  await Promise.all(processing);
+  await Promise.allSettled(processing);
 
   return results;
 }
@@ -114,15 +144,32 @@ async function calculateChunksHash(fileChunkList, concurrencyLimit) {
 }
 
 // 监听消息
+// self.addEventListener(
+//   'message',
+//   async (e) => {
+//     try {
+//       const { file, chunkSize, concurrencyLimit = 3 } = e.data; // 默认并发数为3
+//       const fileChunkList = await createFileChunk(file, chunkSize); // 创建文件切片
+//       await calculateChunksHash(fileChunkList, concurrencyLimit); // 等待计算完成
+//     } catch (err) {
+//       console.error('worker监听发生错误:', err);
+//       self.close();
+//     }
+//   },
+//   false
+// );
+
+// 监听消息
 self.addEventListener(
   'message',
   async (e) => {
     try {
-      const { file, chunkSize, concurrencyLimit = 3 } = e.data; // 默认并发数为3
-      const fileChunkList = await createFileChunk(file, chunkSize); // 创建文件切片
-      await calculateChunksHash(fileChunkList, concurrencyLimit); // 等待计算完成
+      const { file, chunkSize, concurrencyLimit = 3 } = e.data;
+      const fileChunkList = await createFileChunk(file, chunkSize);
+      await calculateChunksHash(fileChunkList, concurrencyLimit);
     } catch (err) {
       console.error('worker监听发生错误:', err);
+      self.postMessage({ name: 'error', data: err });
       self.close();
     }
   },

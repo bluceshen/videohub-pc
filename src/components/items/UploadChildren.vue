@@ -73,7 +73,7 @@ const hanldeUploadFile = async (uploadSrcFile) => {
                 // 分片编号
                 chunk_id: index,
                 // 切片文件大小
-                chunkSize: chunkSize,
+                chunkSize: item.chunkFile.size,
                 // 切片是否已经完成
                 finish: false,
                 // 总共切片数量
@@ -139,9 +139,11 @@ const uploadSignleFile = (taskArrItem) => {
         } = needObj
         fd.append('upload_id', upload_id);
         fd.append('chunk_data', chunk_data);
-        fd.append('chunk_id', chunk_id);
-        fd.append('chunkSize', chunkSize);
-        fd.append('chunkHash', chunkHash);
+        fd.append('chunk_id', chunk_id+1);
+        fd.append('chunk_size', chunkSize);
+        fd.append('chunk_hash', chunkHash);
+
+        console.log("chunk_hash"+chunkHash);
         // 上传切片
         const res = await uploadFile(fd, (onCancelFunc) => {
             // 在调用接口的同时，相当于同时调用了传入的这个函数，又能同时拿到返回的取消方法去赋值
@@ -221,7 +223,7 @@ const handleMerge = async (taskArrItem) => {
     const { id, fileHash, chunk_end_id, videoTitle, videoDescription, videoImage } = taskArrItem
     const fd = new FormData()
     fd.append('upload_id', id);
-    fd.append('chunk_end_id', chunk_end_id);
+    fd.append('chunk_end_id', chunk_end_id+1);
     fd.append('title', videoTitle);
     fd.append('description', videoDescription);
     fd.append('cover', videoImage);

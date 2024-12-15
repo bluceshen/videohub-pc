@@ -179,7 +179,7 @@ const triggerFileInput = () => {
 }
 
 .avatar:hover .set {
-  color: #000; /* 悬停时显示的文字颜色 */
+  color: var(--background-black1); /* 悬停时显示的文字颜色 */
   cursor: pointer;
 }
 
