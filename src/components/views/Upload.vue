@@ -192,7 +192,7 @@ function handleUpload() {
       isUploading.value = false;
       showChild.value = false;
     }
-  }, 6000); // 1分钟的超时时间
+  }, 60000); // 1分钟的超时时间
 
   // 调用子组件的方法
   if (uploadChildren.value && (typeof uploadChildren.value.hanldeUploadFile === 'function')) {

@@ -1,4 +1,5 @@
 import { myPost } from './userClient'
+import CryptoJS from 'crypto-js';
 /**
  * [uploadFile] - 上传切片参数
  * @param fileHash 文件hash，String
@@ -14,8 +15,9 @@ import { myPost } from './userClient'
 
 // 上传单个切片
 export function uploadFile(data, onCancel) {
+  // const request = myPost('/upload', data, true);
   const request = myPost('/videos/chunk', data, true);
-  return request
+  return request;
 }
 
 /**
@@ -27,8 +29,8 @@ export function uploadFile(data, onCancel) {
 
 // 合并所有切片
 export function mergeChunk(data) {
-  // return myPost('/merge', data, true);
-  return myPost('/videos/complete', data, true); //调试
+  // return myPost('/upload', data, true);//调试
+  return myPost('/videos/complete', data, true); 
 }
 
 /**
@@ -38,7 +40,6 @@ export function mergeChunk(data) {
  */
 
 // 检查文件是否存在
-export function checkFile(data) {
-  return myPost('/check', data, true);
-}
-
+// export function checkFile(data) {
+//   return myPost('/check', data, true);
+// }
