@@ -54,7 +54,7 @@ import { ref, reactive } from 'vue';
 import { Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import VideoLeftPlayer from "@/components/items/VideoLeftPlayer";
-// import UploadChildren from '@/components/items/UploadChildren';
+import UploadChildren from '@/components/items/UploadChildren';
 
 const videoTitle = ref('');// 标题
 const videoDesc = ref(''); // 简介
@@ -138,19 +138,13 @@ function handleImageFileChange(event) {
     return;
   }
 
-  if (file.size > 10 * 1024 * 1024) {
-    ElMessage.error('图片大小不能超过10MB!');
-    return;
-  }
-
   const reader = new FileReader();
   // 读取文件并设置为 imageUrl
   reader.onload = (e) => {
     cinImageUrl.value = e.target.result; // 将图片的base64数据赋值给imageUrl
-    uploadData.coverImage = e.target.result;
     imageUrl.value = true;
   };
-
+  uploadData.coverImage = file;
   reader.readAsDataURL(file); // 将文件读取为base64格式
 }
 
@@ -192,7 +186,7 @@ function handleUpload() {
       isUploading.value = false;
       showChild.value = false;
     }
-  }, 6000); // 1分钟的超时时间
+  }, 60000); // 1分钟的超时时间
 
   // 调用子组件的方法
   if (uploadChildren.value && (typeof uploadChildren.value.hanldeUploadFile === 'function')) {

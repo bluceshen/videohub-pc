@@ -128,15 +128,15 @@ export const deleteVideosCommentsLike = (jsonData) => {
 
 ////////////////////////////////////////////////////////////
 
-//分片上传
-export const postVideosChunk = (formData) => {
-  return myPost("/videos/chunk", formData,true);
-};
+// //分片上传
+// export const postVideosChunk = (formData) => {
+//   return myPost("/videos/chunk", formData,true);
+// };
 
-//分片上传结束
-export const postVideosComplete = (formData) => {
-  return myPost("/videos/complete", formData,true);
-};
+// //分片上传结束
+// export const postVideosComplete = (formData) => {
+//   return myPost("/videos/complete", formData,true);
+// };
 
 ////////////////////////////////////////////////////////////
 
