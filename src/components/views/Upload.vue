@@ -5,8 +5,8 @@
 
     <div class="upload-left">
       <div class="video">
-        <VideoLeftPlayer class="video-player" :videoTitle="videoTitle" :releaseTime="releaseTime"
-          :videoUrl="cinVideoUrl" :videoDesc="videoDesc" />
+        <VideoLeftPlayer class="video-player" :id ="-1" :title="videoTitle" :published_at="releaseTime"
+          :video_path="cinVideoUrl" :description="videoDesc" />
       </div>
       <div class="video-upload">
         <label class="upload-demo" for="fileVideoInput">
@@ -120,8 +120,12 @@ function validateInfo() {
   }
 
   // 标题出错误
-  if (cinVideoTitle.value == '') {
+  if (cinVideoTitle.value == '' || cinVideoTitle.value.trim == '') {
     ElMessage.error('请填写视频标题!');
+    return false;
+  }
+  if(cinVideoDesc.value == '' || cinVideoDesc.value.trim == ''){
+    ElMessage.error('请填写视频描述!');
     return false;
   }
 
@@ -211,10 +215,13 @@ function handlePreviw() {
       return;
     }
 
+
     videoTitle.value = cinVideoTitle.value;
     videoDesc.value = cinVideoDesc.value;
-    const currentDate = new Date();
-    releaseTime.value = currentDate.toISOString().split('T')[0];
+    const currentDate = new Date().getTime();
+    releaseTime.value = currentDate;
+    console.log(releaseTime.value);
+
   } else {
     alert('请输入标题');
     return;

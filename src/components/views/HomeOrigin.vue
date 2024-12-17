@@ -6,8 +6,11 @@
     </div>
 
     <!-- 使用 v-for 渲染 Video 组件列表 -->
-    <Video class="video" v-for="video in videos" :key="video.title" :title="video.title" :author="video.name"
-      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
+    <Video class="video" v-for="video in videos" :key="video.title" :id="video.id" :title="video.title"
+      :description="video.description" :cover_path="video.cover_path" :published_at="video.published_at"
+      :view_count="video.view_count" :like_count="video.like_count" :comment_count="video.comment_count"
+      :name="video.name" :avatar="video.avatar" :status="video.status" :video_path="video.video_path"
+      :is_liked="video.is_liked" :is_collected="video.is_collected"></Video>
 
   </div>
 </template>
@@ -29,7 +32,7 @@ onMounted(async () => {
   const params = {
     status: 0,
     page: 1,
-    limit: 20
+    limit: 100
   }
   try {
     const response = await getVideos(params);

@@ -1,192 +1,258 @@
 <template>
-    <div class="video-small-card">
-        <div class="pic-box" ref="playerBox" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
-            <video ref="video" muted style="position:absolute; width: 100%; height:100%; object-fit: fill;" disablePictureInPicture loop>
-                <source :src="videoUrl" type="video/mp4" />
+    <div class="box" ref="playerBox" @click="videoPlayPage">
+        <div class="video-container">
+            <video ref="video" muted disablePictureInPicture loop>
+                <source :src="video_path" type="video/mp4" />
+                <p>您的浏览器不支持视频播放。</p> <!-- 提示信息 -->
             </video>
+
             <!--封面-->
             <div class="cover" :class="{ hidden: !isCover }">
-                <img :src="coverUrl" alt="封面图片" />
+                <img ref="coverImage" alt="封面图片" />
             </div>
         </div>
+
+
         <!-- 视频信息 -->
-        <div class="card-info">
-            <a href="#" :title="videoTitle">{{videoTitle}}</a>
-            <div class="upname">
-                <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
-                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="1.5" color="currentColor">
-                        <path
-                            d="M3.59 18.177a3 3 0 0 1-.418-.349C2 16.657 2 14.771 2 11s0-5.657 1.172-6.828S6.229 3 10 3h4c3.771 0 5.657 0 6.828 1.172S22 7.229 22 11s0 5.657-1.172 6.828q-.194.195-.418.349" />
-                        <path
-                            d="M8.686 16.926c-.864.527-3.131 1.602-1.75 2.947C7.61 20.53 8.36 21 9.306 21h5.389c.944 0 1.695-.47 2.37-1.127c1.38-1.345-.887-2.42-1.751-2.947a6.39 6.39 0 0 0-6.628 0M14.5 11a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0" />
-                    </g>
-                </svg>
-                <span style="margin-left: 10px;">{{author}}</span>
+        <div class="info">
+            <div class="title">
+                <span>{{ title }}</span>
             </div>
-            <!--视频播放量-->
-            <div class="playinfo">
-                <div class="play-num">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="m10.65 15.75l4.875-3.125q.35-.225.35-.625t-.35-.625L10.65 8.25q-.375-.25-.763-.038t-.387.663v6.25q0 .45.388.663t.762-.038M12 22q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12t-2.325-5.675T12 4T6.325 6.325T4 12t2.325 5.675T12 20m0-8" />
-                    </svg>
-                    <p>{{playNum}}</p>
-                </div>
-
-                <div class="video-comment">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M6.5 13.5h11v-1h-11zm0-3h11v-1h-11zm0-3h11v-1h-11zM3 17V3h18v17.077L17.923 17zm1-1h14.35L20 17.644V4H4zm0 0V4z" />
-                    </svg>
-                    <p>{{ commentNum }}</p>
-                </div>
-
+            <div class="count">
+                <span>播放量 {{ view_count }}</span>
+                <span>点赞数 {{ like_count }}</span>
+            </div>
+            <div class="desc">
+                <span id="author">{{ name }}</span>
+                <span>·</span>
+                <span id="time">{{ date(published_at) }}</span>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { debounce } from 'lodash';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from "vue-router";
 
 // 定义接收的props
 const props = defineProps({
-    videoTitle: String,
-    author: String,
-    videoUrl: String,
-    coverUrl: String,
-    playNum: Number,
-    commentNum: Number
+    id: String,
+    title: String,
+    description: String,
+    cover_path: String,
+    published_at: Number,
+    view_count: Number,
+    like_count: Number,
+    comment_count: Number,
+    name: String,
+    avatar: String,
+    status: Number,
+    video_path: String,
+    is_liked: Boolean,
+    is_collected: Boolean
 });
+
+function constructObjectFromProps() {
+    return {
+        id: props.id,
+        title: props.title,
+        description: props.description,
+        cover_path: props.cover_path,
+        published_at: props.published_at,
+        view_count: props.view_count,
+        like_count: props.like_count,
+        comment_count: props.comment_count,
+        name: props.name,
+        avatar: props.avatar,
+        status: props.status,
+        video_path: props.video_path,
+        is_liked: props.is_liked,
+        is_collected: props.is_collected
+    };
+}
+
+function date(timestamp) {
+    return new Date(timestamp).toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric'
+    });
+};
+
+const store = useStore(); // 直接访问 Vuex store
 
 // 响应式变量
 const isCover = ref(true);
 const video = ref(null);
-const handlePlay = async () => {
-  try {
+const playerBox = ref(null);
+const coverImage = ref(null);
+
+function playVideo() {
     if (video.value) {
-      video.value.play();
-      isCover.value = false;  // 播放后隐藏封面
+        // 确保 video.value 不是 undefined
+        video.value.play()
+            .then(() => {
+                isCover.value = false;  // 鼠标移入时隐藏封面
+            })
+            .catch(error => {
+                console.error('播放视频时发生错误:', error);
+            });
+    } else {
+        console.error('video element is undefined');
     }
-  } catch (error) {
-    console.error('Error playing video:', error);
-  }
-};
+}
 
-const handlePause = () => {
-  if (video.value) {
-    video.value.pause();
-    isCover.value = true;   // 暂停后显示封面
-    console.log('Cover shown:', isCover.value);
-  }
-};
+function pauseVideo() {
+    if (video.value) {
+        // 直接调用 pause()，不使用 then 或 catch
+        video.value.pause();
+        isCover.value = true;  // 鼠标移出时展示封面
+    } else {
+        console.error('video element is undefined');
+    }
+}
 
+// 使用事件委托
+function addEventListeners() {
+    if (playerBox.value) {
+        playerBox.value.addEventListener('mouseenter', playVideo);
+        playerBox.value.addEventListener('mouseleave', pauseVideo);
+    }
+}
 
-const handleMouseEnter = debounce(() => {
-  handlePlay();
-}, 100); // 可以根据需要调整延迟时间
+function removeEventListeners() {
+    if (playerBox.value) {
+        playerBox.value.removeEventListener('mouseenter', playVideo);
+        playerBox.value.removeEventListener('mouseleave', pauseVideo);
+    }
+}
 
-const handleMouseLeave = debounce(() => {
-  handlePause();
-}, 100); // 可以根据需要调整延迟时间
+// 在组件挂载时添加事件监听器
+onMounted(() => {
+    addEventListeners();
+});
+
+// 在组件卸载时移除事件监听器
+onUnmounted(() => {
+    removeEventListeners();
+});
+
+// 懒加载封面图
+onMounted(() => {
+    // 确保 coverImage.value 是一个 DOM 元素
+    if (coverImage.value) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    coverImage.value.src = props.cover_path;
+                    observer.unobserve(coverImage.value);
+                }
+            });
+        });
+
+        observer.observe(coverImage.value);
+    } else {
+        console.error('coverImage element is undefined');
+    }
+});
+
+const router = useRouter();
+
+function videoPlayPage() {
+    const currentVideoData = constructObjectFromProps();
+    store.dispatch('home/setCurrentVideoData', currentVideoData);
+    router.push('/videoPlay?'+props.id);
+}
 
 </script>
 
-
-
-
 <style scoped>
-/* 视频卡片 */
-.video-small-card {
-    display: flex;
-    background-color: var(--background-black4);
-    border-radius: 6px;
+.video-container:hover {
+  cursor: pointer;
+}
+.box {
+  display: grid;
+  /* overflow: hidden; */
+  position: relative;
+  /* padding-left: 10px; */
+  width: auto; /* 根据需要调整宽度 */
+  height: 80px; /* 固定高度，与视频高度相同 */
+  grid-template-rows: 1fr; /* 只需要一行 */
+  grid-template-columns: 120px 1fr; /* 视频宽度自适应，信息占剩余空间 */
+  transition: transform 0.3s ease;
+  border-radius: 3px;
+  border: solid var(--grey2) 1px;
 }
 
-/*  视频盒子 */
-.pic-box {
-    width: 141px;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    border-radius: 10px;
-    background-color: aliceblue;
-    cursor: pointer;
+.video-container {
+  position: relative;
+  width: 120px; /* 视频宽度 */
+  height: 80px; /* 视频高度 */
 }
 
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
 
-/* 封面 */
 .cover {
-    position: absolute;
-    opacity: 1;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    transition: opacity 0.3s ease;
-    /* 添加过渡效果 */
-    z-index: 1000;
+  position: absolute;
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+  top:0px;
+  left:0px;
+  display: flex;
+  transition: opacity 0.3s ease;
 }
 
 .cover.hidden {
-    opacity: 0;
+  opacity: 0;
 }
 
 .cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* 保持封面图的宽高比 */
+  /* border: 1px solid white; */
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* 视频信息 */
-.card-info {
-    flex: 1;
-    margin-left: 10px;
-    font-size: 13px;
-    line-height: 15px;
-    width: calc(100% -151px);
-    height: 100%;
-    background-color: var(--background-black4);
+.info {
+  grid-row: 1;
+  grid-column: 2;
+  background-color: var(--grey2);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* 超出部分隐藏 */
+  text-overflow: ellipsis; /* 文本超出部分显示省略号 */
+  white-space: nowrap; /* 防止文本自动换行 */
 }
 
-/* 视频标题 */
-.card-info a {
-    color: var(--text-white2);
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    /* -webkit-line-clamp: 2; */
-    overflow: hidden;
-    word-break: break-all;
-    line-height: 20px;
-    height: 40px;
-    text-decoration: none;
-    cursor: pointer;
+.title {
+  font-size: 16px;
+  color: var(--text-white1);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* up名字 */
-.upname {
-    display: flex;
-    margin-top: 10px;
-    height: 20px;
-    align-items: center;
-    justify-content: flex-start;
-    color: var(--text-white1);
+.count {
+  font-size: 10px;
+  color: var(--text-white2);
 }
 
-/*  播放量信息 */
-.playinfo {
-    color: var(--text-white1);
-    display: flex;
-
+.desc {
+  font-size: 12px;
+  color: var(--text-white2);
 }
 
-.playinfo div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    margin-bottom: 4px;
+.desc span,
+.count span {
+  margin-right: 10px;
 }
 </style>

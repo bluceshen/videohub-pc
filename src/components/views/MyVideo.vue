@@ -5,8 +5,11 @@
     <hr class="line">
     <div class="sub-grid-container">
       <!-- 使用 v-for 渲染审核通过的视频组件列表 -->
-        <Video class="video" v-for="video in approvedVideos" :key="video.title" :title="video.title" :author="video.name"
-      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
+      <Video class="video" v-for="video in approvedVideos" :key="video.title" :id="video.id" :title="video.title"
+      :description="video.description" :cover_path="video.cover_path" :published_at="video.published_at"
+      :view_count="video.view_count" :like_count="video.like_count" :comment_count="video.comment_count"
+      :name="video.name" :avatar="video.avatar" :status="video.status" :video_path="video.video_path"
+      :is_liked="video.is_liked" :is_collected="video.is_collected"></Video>
       </div>
     <br>
 
@@ -14,8 +17,11 @@
     <hr class="line">
     <div class="sub-grid-container">
       <!-- 使用 v-for 渲染待审核的视频组件列表 -->
-      <Video class="video" v-for="video in pendingVideos" :key="video.title" :title="video.title" :author="video.name"
-      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
+      <Video class="video" v-for="video in pendingVideos" :key="video.title" :id="video.id" :title="video.title"
+      :description="video.description" :cover_path="video.cover_path" :published_at="video.published_at"
+      :view_count="video.view_count" :like_count="video.like_count" :comment_count="video.comment_count"
+      :name="video.name" :avatar="video.avatar" :status="video.status" :video_path="video.video_path"
+      :is_liked="video.is_liked" :is_collected="video.is_collected"></Video>
     </div>
     <br>
 
@@ -23,8 +29,11 @@
     <hr class="line">
     <div class="sub-grid-container">
       <!-- 使用 v-for 渲染审核未通过的视频组件列表 -->
-      <Video class="video" v-for="video in rejectedVideos" :key="video.title" :title="video.title" :author="video.name"
-      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
+      <Video class="video" v-for="video in rejectedVideos" :key="video.title" :id="video.id" :title="video.title"
+      :description="video.description" :cover_path="video.cover_path" :published_at="video.published_at"
+      :view_count="video.view_count" :like_count="video.like_count" :comment_count="video.comment_count"
+      :name="video.name" :avatar="video.avatar" :status="video.status" :video_path="video.video_path"
+      :is_liked="video.is_liked" :is_collected="video.is_collected"></Video>
     </div>
     <br>
 
@@ -32,8 +41,11 @@
     <hr class="line">
     <div class="sub-grid-container">
       <!-- 使用 v-for 渲染被封禁的视频组件列表 -->
-      <Video class="video" v-for="video in bannedVideos" :key="video.title" :title="video.title" :author="video.name"
-      :releaseTime="video.published_at" :videoUrl="video.video_path" :coverUrl="video.cover_path"></Video>
+      <Video class="video" v-for="video in bannedVideos" :key="video.title" :id="video.id" :title="video.title"
+      :description="video.description" :cover_path="video.cover_path" :published_at="video.published_at"
+      :view_count="video.view_count" :like_count="video.like_count" :comment_count="video.comment_count"
+      :name="video.name" :avatar="video.avatar" :status="video.status" :video_path="video.video_path"
+      :is_liked="video.is_liked" :is_collected="video.is_collected"></Video>
     </div>
   </div>
 </template>
@@ -48,10 +60,10 @@ const store = useStore(); // 直接访问 Vuex store
 const videos = computed(()=>store.state.user.myVideoData); // 从 store 中获取 myVideoData 数组
 
 // 创建计算属性来分离不同状态的视频
-const approvedVideos = computed(() => videos.value.filter(video => video.status === 0));
-const pendingVideos = computed(() => videos.value.filter(video => video.status === 1));
-const rejectedVideos = computed(() => videos.value.filter(video => video.status === 2));
-const bannedVideos = computed(() => videos.value.filter(video => video.status === 3));
+const approvedVideos = (videos.value != null) ? computed(() => videos.value.filter(video => video.status === 0)) : null;
+const pendingVideos = (videos.value != null) ?computed(() => videos.value.filter(video => video.status === 1)):null;
+const rejectedVideos = (videos.value != null) ?computed(() => videos.value.filter(video => video.status === 2)):null;
+const bannedVideos = (videos.value != null) ?computed(() => videos.value.filter(video => video.status === 3)):null;
 
 onMounted(async() => {
   try {

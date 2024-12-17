@@ -54,7 +54,7 @@
 <script setup>
 import { useStore } from 'vuex';
 import { computed, onMounted, ref } from 'vue';
-import { postUsersEmail, postUsers, postUsersToken } from "@/api/userApi";
+import { postUsersEmail, postUsers, postUsersToken, getUsers } from "@/api/userApi";
 import { useRouter } from "vue-router";
 import { setAccessToken, setRefreshToken } from "@/api/auth";
 import CryptoJS from 'crypto-js';
@@ -110,6 +110,22 @@ function loginPage() {
   showLogin.value = true;
 }
 
+onMounted(async () => {
+  try {
+    const response = await getUsers();
+    if (response != null && response.data.code === 200) {
+      store.dispatch('user/setMeInfo', response.data.data.user);
+    } else {
+      store.dispatch('user/openAuth');
+    }
+  } catch (error) {
+    if (error.message === "AUTHENTICATION_FAILED") {
+      console.log("访问令牌失效，请重新登录");
+      store.dispatch('user/openAuth');
+    }
+  }
+})
+
 //不需要token，所以不用try-catch来捕捉refresh_token失效的情况
 async function getCode() {
   if (!validator.isEmail(register_username.value)) {
@@ -161,6 +177,18 @@ async function login() {
       }, 1000);
 
       console.log("登录成功");
+
+      try {
+        const response = await getUsers();
+        if (response != null && response.data.code === 200) {
+          store.dispatch('user/setMeInfo', response.data.data.user);
+        }
+      } catch (error) {
+        if (error.message === "AUTHENTICATION_FAILED") {
+          console.log("访问令牌失效，请重新登录");
+          store.dispatch('user/openAuth');
+        }
+      }
     } else {
       console.log(response.data.error);
     }

@@ -1,18 +1,20 @@
 <template>
-  <div class="VideoPlay-Win">
-      <div class="VideoPlay">
-        <VideoLeftPlayer 
-          :releaseTime="video.published_at" 
-          :videoTitle="video.title"
-          :videoUrl="video.video_path"
-          :videoDesc="video.description"
-          >
-        </VideoLeftPlayer>          
-        <Comment2></Comment2>
-      </div>
-      <div class="VideoList">
-        <VideoRightList :upName="video.name"></VideoRightList>
-      </div>
+  <div class="VideoPlay-Win" :key="id">
+    <div class="VideoPlay"  v-if="video!=null">
+      <VideoLeftPlayer class="video" :id="video.id" :title="video.title"
+        :description="video.description" :cover_path="video.cover_path" :published_at="video.published_at"
+        :view_count="video.view_count" :like_count="video.like_count" :comment_count="video.comment_count"
+        :name="video.name" :avatar="video.avatar" :status="video.status" :video_path="video.video_path"
+        :is_liked="video.is_liked" :is_collected="video.is_collected"></VideoLeftPlayer>
+      <Comment2 :id="video.id"></Comment2>
+    </div>
+    <div class="VideoList" v-if="video!=null">
+      <VideoRightList class="video" :id="video.id" :title="video.title"
+        :description="video.description" :cover_path="video.cover_path" :published_at="video.published_at"
+        :view_count="video.view_count" :like_count="video.like_count" :comment_count="video.comment_count"
+        :name="video.name" :avatar="video.avatar" :status="video.status" :video_path="video.video_path"
+        :is_liked="video.is_liked" :is_collected="video.is_collected"></VideoRightList>
+    </div>
   </div>
 </template>
 
@@ -25,7 +27,8 @@ import Comment2 from '../items/Comment2.vue';
 
 /* 切换为videoList */
 const store = useStore(); // 直接访问 Vuex store
-const video = computed(()=>store.state.home.currentVideoData); // 从 store 中获取 currentVideoData
+const video = computed(() => store.state.home.currentVideoData); // 从 store 中获取 currentVideoData
+const id =ref((video!=null)?video.id:-1);
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -37,7 +40,7 @@ const video = computed(()=>store.state.home.currentVideoData); // 从 store 中�
   width: auto;
   height: 100%;
   grid-gap: 0 50px;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 3fr 1fr;
   margin: 0 auto;
   padding: 0 50px;
   /* 这里加了50px就应该在min-width-50px */
@@ -48,16 +51,20 @@ const video = computed(()=>store.state.home.currentVideoData); // 从 store 中�
   /* background-color: var(--background-black1); */
   overflow-y: auto;
 }
+
 .VideoPlay {
   display: grid;
-  grid-template-rows: 700px 1fr; 
+  grid-template-rows: 700px 1fr;
   grid-column: 1;
 }
+
 .VideoLeftPlayer {
   min-height: 500px;
   max-height: 500px;
 }
+
 .VideoList {
   grid-column: 2;
+  width: 100%;
 }
 </style>

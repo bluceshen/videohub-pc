@@ -1,7 +1,7 @@
 <template>
   <div class="box" ref="playerBox" @click="videoPlayPage">
     <video ref="video" muted disablePictureInPicture loop>
-      <source :src="videoUrl" type="video/mp4" />
+      <source :src="video_path" type="video/mp4" />
       <p>您的浏览器不支持视频播放。</p> <!-- 提示信息 -->
     </video>
 
@@ -15,28 +15,68 @@
       <div class="title">
         <span>{{ title }}</span>
       </div>
+      <div class="count">
+        <span>播放量 {{ view_count }}</span>
+        <span>点赞数 {{ like_count }}</span>
+      </div>
       <div class="desc">
-        <span id="author">{{ author }}</span>
+        <span id="author">{{ name }}</span>
         <span>·</span>
-        <span id="time">{{ releaseTime }}</span>
+        <span id="time">{{ date(published_at) }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted} from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from "vue-router";
 
 // 定义接收的props
 const props = defineProps({
+  id: String,
   title: String,
-  author: String,
-  releaseTime: Number,
-  videoUrl: String,
-  coverUrl: String,
+  description: String,
+  cover_path:String,
+  published_at: Number,
+  view_count: Number,
+  like_count: Number,
+  comment_count: Number,
+  name: String,
+  avatar: String,
+  status: Number,
+  video_path: String,
+  is_liked: Boolean,
+  is_collected: Boolean
 });
+
+function constructObjectFromProps() {
+  return {
+    id: props.id,
+    title: props.title,
+    description: props.description,
+    cover_path: props.cover_path,
+    published_at: props.published_at,
+    view_count: props.view_count,
+    like_count: props.like_count,
+    comment_count: props.comment_count,
+    name: props.name,
+    avatar: props.avatar,
+    status: props.status,
+    video_path: props.video_path,
+    is_liked: props.is_liked,
+    is_collected: props.is_collected
+  };
+}
+
+function date(timestamp){
+  return new Date(timestamp).toLocaleString('zh-CN', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  });
+};
 
 const store = useStore(); // 直接访问 Vuex store
 
@@ -98,37 +138,29 @@ onUnmounted(() => {
 
 // 懒加载封面图
 onMounted(() => {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        coverImage.value.src = props.coverUrl;
-        observer.unobserve(coverImage.value);
-      }
+  // 确保 coverImage.value 是一个 DOM 元素
+  if (coverImage.value) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          coverImage.value.src = props.cover_path;
+          observer.unobserve(coverImage.value);
+        }
+      });
     });
-  });
 
-  observer.observe(coverImage.value);
+    observer.observe(coverImage.value);
+  } else {
+    console.error('coverImage element is undefined');
+  }
 });
 
 const router = useRouter();
 
 function videoPlayPage(){
-  const {title} = props;
-  const {author} = props;
-  const {releaseTime} = props;
-  const {videoUrl} = props;
-  const {coverUrl} = props;
-
-  const currentVideoData = {
-    title:title,
-    name:author,
-    published_at:releaseTime,
-    video_path:videoUrl,
-    cover_path:coverUrl
-  }
+  const currentVideoData = constructObjectFromProps();
   store.dispatch('home/setCurrentVideoData',currentVideoData);
-  router.push('/videoPlay')
-  
+  router.push('/videoPlay?'+props.id);
 }
 
 </script>
@@ -187,7 +219,7 @@ video {
   text-align: left;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 5fr 3fr;
+  grid-template-rows: 5fr 1fr 1fr;
   position: relative;
 }
 
@@ -202,14 +234,25 @@ video {
   white-space: nowrap;
 }
 
-.desc {
+.count{
   grid-row: 2;
   grid-column: 1;
-  font-size: var(--font-video-desc);
+  font-size: 12px;
+  color: var(--text-white2);
+}
+
+.desc {
+  grid-row: 3;
+  grid-column: 1;
+  font-size: 15px;
   color: var(--text-white2);
 }
 
 .desc span {
-  margin-right: 10px;
+  margin-right: 15px;
+}
+
+.count span{
+  margin-right: 15px;
 }
 </style>
